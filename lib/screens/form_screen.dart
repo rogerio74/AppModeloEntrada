@@ -25,12 +25,10 @@ class _FormularioState extends State<Formulario> {
           decoration: const BoxDecoration(
             gradient: LinearGradient(colors: [
               Color(0xFF0f0882),
-              Color(0xFF00d4ff)
+              Color(0xFF00d4ff)                            
             ],
-            begin: FractionalOffset(0.0, 0.0),
-                end: FractionalOffset(1.0, 0.0),
-                stops: [0.0, 1.0],
-                tileMode: TileMode.clamp
+            begin: Alignment.topCenter,
+            end: AlignmentDirectional.bottomCenter
             )
           ),
           child: Center(
