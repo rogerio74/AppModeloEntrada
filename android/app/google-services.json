@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "345496715863",
+    "project_id": "geracao-modelo",
+    "storage_bucket": "geracao-modelo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:345496715863:android:d6a3cf4efc476d5892d912",
+        "android_client_info": {
+          "package_name": "com.example.modelo_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "345496715863-6p8bvjd6sn962qvi0vig37hcdr3s82ml.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.modelo_app",
+            "certificate_hash": "7578ebd3128d66e7a41029aa8d6504e2538719ce"
+          }
+        },
+        {
+          "client_id": "345496715863-6t84uupeq572qns7078b29mu1i4mrdct.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3WDqcOEl1oV-TeSxwwJ2srZGVmg-FJ9I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "345496715863-6t84uupeq572qns7078b29mu1i4mrdct.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
