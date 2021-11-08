@@ -8,7 +8,8 @@ import 'package:modelo_app/components/reprodutor_wav.dart';
 class GravacaoScreen extends StatefulWidget {
   final File informacoesPessoais;
   final String vogal;
-  const GravacaoScreen({ Key? key, required this.informacoesPessoais, required this.vogal}) : super(key: key);
+  final String nome;
+  const GravacaoScreen({ Key? key, required this.informacoesPessoais, required this.vogal, required this.nome}) : super(key: key);
 
   @override
   _GravacaoScreenState createState() => _GravacaoScreenState();
@@ -41,6 +42,7 @@ class _GravacaoScreenState extends State<GravacaoScreen> {
             ReprodutorWav reprodutorWav = ReprodutorWav(
                 context: context,
                 informacoesPessoais: widget.informacoesPessoais,
+                nome: widget.nome,
                 vogal: widget.vogal,
                 path: recorder.path!);
             reprodutorWav.ouvirAudio();

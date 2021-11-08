@@ -10,13 +10,14 @@ import 'package:modelo_app/components/erro_internet.dart';
 
 class ReprodutorWav {
   BuildContext context;
+  String nome;
   String path;
   File informacoesPessoais;
   String vogal;
   AudioPlayer audioPlayer = AudioPlayer();
 
   ReprodutorWav(
-      {required this.context, required this.path, required this.informacoesPessoais, required this.vogal});
+      {required this.context, required this.nome, required this.path, required this.informacoesPessoais, required this.vogal});
 
   ouvirAudio() async {
     audioPlayer.play(path, isLocal: true);
@@ -56,14 +57,16 @@ class ReprodutorWav {
                                      
                        var firebaseStorange = FirebaseStorage.instance
                           .ref()
-                          .child('gravacoes')
+                          .child('audios')
+                          .child(nome)
                           .child( vogal + '.wav');
 
                       firebaseStorange.putFile(File(path));
 
                       firebaseStorange = FirebaseStorage.instance
                           .ref()
-                          .child('voluntarios');
+                          .child('voluntarios')
+                          .child(nome + '.txt');
                       
                       firebaseStorange.putFile(informacoesPessoais);
                      

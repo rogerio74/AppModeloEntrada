@@ -120,7 +120,7 @@ class _FormularioState extends State<Formulario> {
                                         String pathInformacoes = await Diretorio('/GravacaoApp').getNomeDoArquivo('/${_nomeController.text}.txt');
                                         io.File informacoesPessoais = io.File(pathInformacoes);
                                         informacoesPessoais.writeAsString('NOME: ${_nomeController.text}\nIDADE:${_idadeController.text}\nSEXO: ${_sexoController.text}');
-                                        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => AudiosScreen(informacoesPessoais: informacoesPessoais,)));
+                                        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => AudiosScreen(informacoesPessoais: informacoesPessoais, nome: _nomeController.text)));
                                       }
                                     }, child: const Text('GRAVAR ÁUDIOS'),
                                     style: ElevatedButton.styleFrom(

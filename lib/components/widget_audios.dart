@@ -6,14 +6,15 @@ import 'package:modelo_app/screens/gravacao_screen.dart';
 
 class WidgetAudio extends StatelessWidget {
   final String vogal;
+  final String nome;
   final File informacoesPessoais;
-  const WidgetAudio({ Key? key, required this.vogal, required this.informacoesPessoais}) : super(key: key);
+  const WidgetAudio({ Key? key, required this.vogal, required this.informacoesPessoais, required this.nome}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>  GravacaoScreen(vogal: vogal,informacoesPessoais: informacoesPessoais,)));
+        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>  GravacaoScreen(vogal: vogal,informacoesPessoais: informacoesPessoais, nome: nome)));
       },
       child: Container(decoration:  BoxDecoration(
         color: Colors.grey.shade200,

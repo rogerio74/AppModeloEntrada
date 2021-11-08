@@ -5,6 +5,7 @@ import 'package:modelo_app/components/widget_audios.dart';
 
 class AudiosScreen extends StatelessWidget {
   final File informacoesPessoais;
+  final String nome;
   final List<String> audios = [
     'A',
     'Ã',
@@ -17,7 +18,7 @@ class AudiosScreen extends StatelessWidget {
 
   ];
   
-  AudiosScreen({ Key? key, required this.informacoesPessoais}) : super(key: key);
+  AudiosScreen({ Key? key, required this.informacoesPessoais, required this.nome}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +38,7 @@ class AudiosScreen extends StatelessWidget {
           ),
         child: GridView.count(crossAxisCount: 3,
           children: List.generate(audios.length, (index){
-              return WidgetAudio(vogal: audios[index], informacoesPessoais: informacoesPessoais,);
+              return WidgetAudio(vogal: audios[index], informacoesPessoais: informacoesPessoais, nome: nome);
           })
         ),
       ),
