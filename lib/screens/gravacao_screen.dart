@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:modelo_app/components/recorder_wav.dart';
 import 'package:modelo_app/components/reprodutor_wav.dart';
@@ -18,6 +17,7 @@ class GravacaoScreen extends StatefulWidget {
 class _GravacaoScreenState extends State<GravacaoScreen> {
 
   RecorderWav recorder = RecorderWav();
+  String _status = '';
 
   @override
   void initState() {
@@ -38,6 +38,9 @@ class _GravacaoScreenState extends State<GravacaoScreen> {
       child: IconButton(
         onPressed: () async {
           if (recorder.isRecording) {
+            setState(() {
+              _status = 'gravação concluída';
+            });
             await recorder.stop();
             ReprodutorWav reprodutorWav = ReprodutorWav(
                 context: context,
@@ -47,6 +50,9 @@ class _GravacaoScreenState extends State<GravacaoScreen> {
                 path: recorder.path!);
             reprodutorWav.ouvirAudio();
           } else {
+            setState(() {
+              _status = 'gravando...';
+            });
             await recorder.start();
           }
         },
@@ -86,6 +92,7 @@ class _GravacaoScreenState extends State<GravacaoScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children:  [
                   Text(widget.vogal, style: const TextStyle(fontFamily: 'MochiyPopOne',fontSize: 150, color: Color(0xFF0f0882)),),
+                  Text(_status),
                   _construirBotaoGravacao(context)
               ],),
             ),

@@ -71,7 +71,7 @@ class ReprodutorWav {
                       firebaseStorange.putFile(informacoesPessoais);
                      
                       _apagarArquivo();
-                    
+
                      
 
                     Navigator.of(context).pop();
