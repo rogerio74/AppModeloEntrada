@@ -45,8 +45,14 @@ class _GravacaoScreenState extends State<GravacaoScreen> {
                 vogal: widget.vogal,
                 path: recorder.path!);
             reprodutorWav.ouvirAudio();
+            setState(() {
+
+            });
           } else {
             await recorder.start();
+            setState(() {
+
+            });
           }
         },
         icon: Icon(recorder.isRecording ? Icons.stop : Icons.mic_outlined),
@@ -85,7 +91,6 @@ class _GravacaoScreenState extends State<GravacaoScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children:  [
                   Text(widget.vogal, style: const TextStyle(fontFamily: 'MochiyPopOne',fontSize: 150, color: Color(0xFF0f0882)),),
-                  Text(_status),
                   _construirBotaoGravacao(context)
               ],),
             ),

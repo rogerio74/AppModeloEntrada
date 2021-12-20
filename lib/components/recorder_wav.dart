@@ -1,6 +1,5 @@
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:modelo_app/components/diretorio.dart';
-
 import 'package:permission_handler/permission_handler.dart';
 //import 'dart:developer' as d;
 
@@ -36,6 +35,7 @@ class RecorderWav {
         toFile: path, sampleRate: 16000, numChannels: 1, codec: Codec.pcm16WAV, bitRate: 5333);
     isRecording = true;
   }
+
 
   stop() async {
     await _audioRecorder!.stopRecorder();

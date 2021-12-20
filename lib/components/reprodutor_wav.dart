@@ -43,7 +43,7 @@ class ReprodutorWav {
   showAlertDialog(BuildContext context) {
     Widget apagarButton = TextButton(
         onPressed: () {
-          _apagarArquivo();
+         // _apagarArquivo();
           audioPlayer.stop();
           Navigator.of(context).pop();
         },

@@ -41,6 +41,7 @@ dependencies:
   firebase_core:
   connectivity:
   audioplayers:
+  intl:
  
 
 dev_dependencies:
