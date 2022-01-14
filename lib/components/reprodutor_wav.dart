@@ -52,9 +52,9 @@ class _ReprodutorWavState extends State<ReprodutorWav> {
         int numWav = await database.incrementNumero('num_arquivo');
         String nameWav = 'APX-$numWav';
 
-        String transcricaoWav =
+        String nameTranscricaoWav =
             await Diretorio('/GravacaoApp').getNomeDoArquivo('/$nameWav.txt');
-        io.File transcricao = io.File(transcricaoWav);
+        io.File transcricao = io.File(nameTranscricaoWav);
         transcricao.writeAsString(widget.vogal);
 
         Reference uploadWav = firebaseStorage
@@ -71,7 +71,7 @@ class _ReprodutorWavState extends State<ReprodutorWav> {
             .child(widget.folderName)
             .child(nameWav + '.txt');
 
-        await uploadTranscricao.putFile(File(widget.path));
+        await uploadTranscricao.putFile(File(nameTranscricaoWav));
 
         Reference uploadTxt = firebaseStorage
             .ref()
