@@ -1,10 +1,10 @@
+import 'dart:io' as io;
 import 'dart:io';
-
 import 'package:audioplayers/audioplayers.dart';
 import 'package:connectivity/connectivity.dart' as connection;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-
+import 'package:modelo_app/components/diretorio.dart';
 import 'package:modelo_app/components/erro_internet.dart';
 import 'package:modelo_app/contador/realtime.dart';
 
@@ -50,8 +50,12 @@ class _ReprodutorWavState extends State<ReprodutorWav> {
     await checkConnection().then((internet) async {
       if (internet) {
         int numWav = await database.incrementNumero('num_arquivo');
-
         String nameWav = 'APX-$numWav';
+
+        String transcricaoWav =
+            await Diretorio('/GravacaoApp').getNomeDoArquivo('/$nameWav.txt');
+        io.File transcricao = io.File(transcricaoWav);
+        transcricao.writeAsString(widget.vogal);
 
         Reference uploadWav = firebaseStorage
             .ref()
@@ -60,6 +64,14 @@ class _ReprodutorWavState extends State<ReprodutorWav> {
             .child(nameWav + '.wav');
 
         await uploadWav.putFile(File(widget.path));
+
+        Reference uploadTranscricao = firebaseStorage
+            .ref()
+            .child('folders')
+            .child(widget.folderName)
+            .child(nameWav + '.txt');
+
+        await uploadTranscricao.putFile(File(widget.path));
 
         Reference uploadTxt = firebaseStorage
             .ref()
