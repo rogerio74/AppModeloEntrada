@@ -6,6 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 import 'package:modelo_app/components/erro_internet.dart';
+import 'package:modelo_app/contador/realtime.dart';
 
 class ReprodutorWav extends StatefulWidget {
   final BuildContext context;
@@ -38,7 +39,7 @@ class _ReprodutorWavState extends State<ReprodutorWav> {
   }
 
   _apagarArquivo() {
-    var file = File(widget.path);
+    File file = File(widget.path);
     file.delete();
   }
 
@@ -48,15 +49,19 @@ class _ReprodutorWavState extends State<ReprodutorWav> {
     });
     await checkConnection().then((internet) async {
       if (internet) {
-        var uploadWav = firebaseStorage
+        int numWav = await database.incrementNumero('num_arquivo');
+
+        String nameWav = 'APX-$numWav';
+
+        Reference uploadWav = firebaseStorage
             .ref()
             .child('folders')
             .child(widget.folderName)
-            .child(widget.vogal + '.wav');
+            .child(nameWav + '.wav');
 
         await uploadWav.putFile(File(widget.path));
 
-        var uploadTxt = firebaseStorage
+        Reference uploadTxt = firebaseStorage
             .ref()
             .child('voluntarios')
             .child(widget.folderName + '.txt');
