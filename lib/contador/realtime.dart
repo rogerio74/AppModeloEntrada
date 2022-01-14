@@ -30,3 +30,5 @@ class AppModeloDatabase {
     return numDaPasta;
   }
 }
+
+final AppModeloDatabase database = AppModeloDatabase();

@@ -13,7 +13,6 @@ class Formulario extends StatefulWidget {
 }
 
 class _FormularioState extends State<Formulario> {
-  final AppModeloDatabase database = AppModeloDatabase();
   bool _processing = false;
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
