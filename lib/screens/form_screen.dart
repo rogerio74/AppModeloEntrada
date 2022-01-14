@@ -200,15 +200,11 @@ class _FormularioState extends State<Formulario> {
                                                     _getFolderName(
                                                         _sexoController.text,
                                                         _numeroPasta);
-                                                debugPrint(
-                                                    _nomeDaPasta.toString());
                                                 String pathInformacoes =
                                                     await Diretorio(
                                                             '/GravacaoApp')
                                                         .getNomeDoArquivo(
                                                             '/$_nomeDaPasta.txt');
-                                                debugPrint(
-                                                    pathInformacoes.toString());
                                                 String content = _getContent(
                                                     _nomeDaPasta,
                                                     _emailController.text,
