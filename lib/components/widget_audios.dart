@@ -26,22 +26,33 @@ class WidgetAudio extends StatelessWidget {
                     informacoesPessoais: informacoesPessoais,
                     folderName: folderName)));
       },
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.grey.shade200,
-          borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+      child: Stack(children: [
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.grey.shade200,
+            borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+          ),
+          margin: const EdgeInsets.all(10),
+          child: Center(
+              child: Text(
+            vogal,
+            style: const TextStyle(
+                fontFamily: 'MochiyPopOne',
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF0f0882),
+                fontSize: 25.0),
+          )),
         ),
-        margin: const EdgeInsets.all(10),
-        child: Center(
-            child: Text(
-          vogal,
-          style: const TextStyle(
-              fontFamily: 'MochiyPopOne',
-              fontWeight: FontWeight.bold,
-              color: Color(0xFF0f0882),
-              fontSize: 25.0),
-        )),
-      ),
+        const Positioned(
+          left: 15,
+          top: 15,
+          child: Icon(
+            Icons.lock,
+            size: 30,
+            color: Colors.amber,
+          ),
+        ),
+      ]),
     );
   }
 }
