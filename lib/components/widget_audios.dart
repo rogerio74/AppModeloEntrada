@@ -3,16 +3,34 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:modelo_app/screens/gravacao_screen.dart';
 
-class WidgetAudio extends StatelessWidget {
+class WidgetAudio extends StatefulWidget {
   final String vogal;
   final String folderName;
   final File informacoesPessoais;
-  const WidgetAudio(
-      {Key? key,
-      required this.vogal,
-      required this.informacoesPessoais,
-      required this.folderName})
-      : super(key: key);
+  final bool isButtonDisabled;
+  const WidgetAudio({
+    Key? key,
+    required this.vogal,
+    required this.informacoesPessoais,
+    required this.folderName,
+    required this.isButtonDisabled,
+  }) : super(key: key);
+
+  @override
+  State<WidgetAudio> createState() => _WidgetAudioState();
+}
+
+class _WidgetAudioState extends State<WidgetAudio> {
+  Icon lockIcon = const Icon(
+    Icons.lock_open_outlined,
+    size: 30,
+    color: Color(0xFF160bac),
+  );
+  Icon unlockIcon = const Icon(
+    Icons.lock_outline,
+    size: 30,
+    color: Color(0xFF160bac),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +40,9 @@ class WidgetAudio extends StatelessWidget {
             context,
             MaterialPageRoute(
                 builder: (BuildContext context) => GravacaoScreen(
-                    vogal: vogal,
-                    informacoesPessoais: informacoesPessoais,
-                    folderName: folderName)));
+                    vogal: widget.vogal,
+                    informacoesPessoais: widget.informacoesPessoais,
+                    folderName: widget.folderName)));
       },
       child: Stack(children: [
         Container(
@@ -35,7 +53,7 @@ class WidgetAudio extends StatelessWidget {
           margin: const EdgeInsets.all(10),
           child: Center(
               child: Text(
-            vogal,
+            widget.vogal.toUpperCase(),
             style: const TextStyle(
                 fontFamily: 'MochiyPopOne',
                 fontWeight: FontWeight.bold,
@@ -43,15 +61,10 @@ class WidgetAudio extends StatelessWidget {
                 fontSize: 25.0),
           )),
         ),
-        const Positioned(
-          left: 15,
-          top: 15,
-          child: Icon(
-            Icons.lock,
-            size: 30,
-            color: Colors.amber,
-          ),
-        ),
+        Positioned(
+            left: 15,
+            top: 15,
+            child: widget.isButtonDisabled ? lockIcon : unlockIcon),
       ]),
     );
   }
