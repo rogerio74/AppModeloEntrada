@@ -81,7 +81,7 @@ class _GravacaoScreenState extends State<GravacaoScreen> {
                               context: context,
                               informacoesPessoais: widget.informacoesPessoais,
                               folderName: widget.folderName,
-                              vogal: widget.vogal,
+                              vogal: widget.vogal.toLowerCase(),
                               path: recorder.path!);
                           reprodutorWav.audioPlayer
                               .play(reprodutorWav.path, isLocal: true);
