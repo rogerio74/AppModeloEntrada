@@ -2,22 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:modelo_app/components/widget_audios.dart';
+import 'package:modelo_app/utils/vogais_map.dart';
 
 class AudiosScreen extends StatelessWidget {
   final File informacoesPessoais;
   final String folderName;
-  final List<String> audios = [
-    'A',
-    'Ã',
-    'E',
-    'Ê',
-    'I',
-    'Ô',
-    'Ó',
-    'U',
-  ];
-
-  AudiosScreen(
+  const AudiosScreen(
       {Key? key, required this.informacoesPessoais, required this.folderName})
       : super(key: key);
 
@@ -41,14 +31,27 @@ class AudiosScreen extends StatelessWidget {
                 colors: [Color(0xFF0f0882), Color(0xFF00d4ff)],
                 begin: Alignment.topCenter,
                 end: AlignmentDirectional.bottomCenter)),
-        child: GridView.count(
-            crossAxisCount: 3,
-            children: List.generate(audios.length, (index) {
-              return WidgetAudio(
-                  vogal: audios[index],
-                  informacoesPessoais: informacoesPessoais,
-                  folderName: folderName);
-            })),
+        child: Builder(
+          builder: (BuildContext context) {
+            List vogaisList = [];
+            vogaisList.isNotEmpty
+                ? vogaisList.clear()
+                : vogaisMap.forEach((key, value) {
+                    vogaisList.add([key, value]);
+                  });
+            return GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3),
+                itemCount: vogaisList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return WidgetAudio(
+                      vogal: vogaisList[index][0],
+                      informacoesPessoais: informacoesPessoais,
+                      folderName: folderName,
+                      isButtonDisabled: vogaisList[index][1]);
+                });
+          },
+        ),
       ),
     );
   }
