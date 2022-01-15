@@ -36,13 +36,15 @@ class _WidgetAudioState extends State<WidgetAudio> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (BuildContext context) => GravacaoScreen(
-                    vogal: widget.vogal,
-                    informacoesPessoais: widget.informacoesPessoais,
-                    folderName: widget.folderName)));
+        widget.isButtonDisabled
+            ? null
+            : Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => GravacaoScreen(
+                        vogal: widget.vogal,
+                        informacoesPessoais: widget.informacoesPessoais,
+                        folderName: widget.folderName)));
       },
       child: Stack(children: [
         Container(
