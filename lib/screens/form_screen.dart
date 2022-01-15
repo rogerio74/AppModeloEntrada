@@ -2,8 +2,8 @@ import 'dart:io' as io;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:modelo_app/contador/realtime.dart';
-import 'package:modelo_app/screens/audios_screens.dart';
 import 'package:modelo_app/components/diretorio.dart';
+import 'package:modelo_app/screens/audios_screens.dart';
 
 class Formulario extends StatefulWidget {
   const Formulario({Key? key}) : super(key: key);
