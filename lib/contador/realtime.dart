@@ -24,7 +24,6 @@ class AppModeloDatabase {
 
   Future<int> incrementNumero(child) async {
     int numDaPasta = await _getNumero(child);
-    debugPrint(numDaPasta.toString());
     numDaPasta++;
     await _saveNumero(child, numDaPasta);
     return numDaPasta;
