@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:modelo_app/screens/form_screen.dart';
 
 class FinalScreen extends StatefulWidget {
   const FinalScreen({Key? key}) : super(key: key);
@@ -61,7 +62,31 @@ class _FinalScreenState extends State<FinalScreen> {
                                 color: Color(0xFF0f0882)),
                           ),
                           const SizedBox(
-                            height: 80,
+                            height: 60,
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      const Formulario(),
+                                ),
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              primary: const Color(0xFF0f0882),
+                            ),
+                            child: const Text(
+                              'GRAVAR NOVOS ÁUDIOS',
+                              style: TextStyle(
+                                  fontFamily: 'MochiyPopOne',
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
                           ),
                           _isExiting
                               ? const CircularProgressIndicator(
