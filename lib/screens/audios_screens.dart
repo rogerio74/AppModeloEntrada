@@ -1,8 +1,8 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:modelo_app/components/widget_audios.dart';
-import 'package:modelo_app/utils/vogais_map.dart';
+import 'package:modelo_app/models/vogais_map.dart';
+import 'package:provider/provider.dart';
 
 class AudiosScreen extends StatelessWidget {
   final File informacoesPessoais;
@@ -31,12 +31,12 @@ class AudiosScreen extends StatelessWidget {
                 colors: [Color(0xFF0f0882), Color(0xFF00d4ff)],
                 begin: Alignment.topCenter,
                 end: AlignmentDirectional.bottomCenter)),
-        child: Builder(
-          builder: (BuildContext context) {
+        child: Consumer<Vogais>(
+          builder: (context, vogais, child) {
             List vogaisList = [];
             vogaisList.isNotEmpty
                 ? vogaisList.clear()
-                : vogaisMap.forEach((key, value) {
+                : vogais.map.forEach((key, value) {
                     vogaisList.add([key, value]);
                   });
             return GridView.builder(
