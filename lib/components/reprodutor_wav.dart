@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:modelo_app/components/diretorio.dart';
 import 'package:modelo_app/components/erro_internet.dart';
 import 'package:modelo_app/contador/realtime.dart';
+import 'package:modelo_app/models/vogais_map.dart';
+import 'package:provider/provider.dart';
 
 class ReprodutorWav extends StatefulWidget {
   final BuildContext context;
@@ -86,6 +88,9 @@ class _ReprodutorWavState extends State<ReprodutorWav> {
           _sending = false;
         });
 
+        Provider.of<Vogais>(context, listen: false)
+            .updateStatusVogal(widget.vogal);
+
         Navigator.of(context).pop();
         Navigator.of(context).pop();
       } else {
@@ -112,40 +117,44 @@ class _ReprodutorWavState extends State<ReprodutorWav> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-        content: const Text(
-          "O ÁUDIO FOI GRAVADO SEM INTERFERÊNCIAS?",
-          style: TextStyle(color: Colors.white, fontFamily: 'MochiyPopOne'),
-        ),
-        backgroundColor: Theme.of(context).colorScheme.secondary,
-        elevation: 5.0,
-        actions: [
-          TextButton(
-            onPressed: () {
-              // _apagarArquivo();
-              widget.audioPlayer.stop();
-              Navigator.of(context).pop();
-            },
-            child: const Text(
-              "Não",
-              style: TextStyle(color: Colors.white, fontFamily: 'MochiyPopOne'),
-            ),
+      content: const Text(
+        "O ÁUDIO FOI GRAVADO SEM INTERFERÊNCIAS?",
+        style: TextStyle(color: Colors.white, fontFamily: 'MochiyPopOne'),
+      ),
+      backgroundColor: Theme.of(context).colorScheme.secondary,
+      elevation: 5.0,
+      actions: [
+        TextButton(
+          onPressed: () {
+            // _apagarArquivo();
+            widget.audioPlayer.stop();
+            Navigator.of(context).pop();
+          },
+          child: const Text(
+            "Não",
+            style: TextStyle(color: Colors.white, fontFamily: 'MochiyPopOne'),
           ),
-          _sending
-              ? const SizedBox(
-                  height: 25,
-                  width: 25,
-                  child: CircularProgressIndicator(
-                    color: Color(0xFF00d4ff),
-                  ),
-                )
-              : TextButton(
-                  onPressed: () {
-                    _saveData();
-                  },
-                  child: const Text("Sim",
-                      style: TextStyle(
-                          color: Colors.white, fontFamily: 'MochiyPopOne'))),
-        ]);
+        ),
+        _sending
+            ? const SizedBox(
+                height: 25,
+                width: 25,
+                child: CircularProgressIndicator(
+                  color: Color(0xFF00d4ff),
+                ),
+              )
+            : TextButton(
+                onPressed: () {
+                  _saveData();
+                },
+                child: const Text(
+                  "Sim",
+                  style: TextStyle(
+                      color: Colors.white, fontFamily: 'MochiyPopOne'),
+                ),
+              ),
+      ],
+    );
   }
 }
 
