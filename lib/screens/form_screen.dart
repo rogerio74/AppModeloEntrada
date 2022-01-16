@@ -1,6 +1,5 @@
 import 'dart:io' as io;
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:modelo_app/contador/realtime.dart';
 import 'package:modelo_app/components/diretorio.dart';
 import 'package:modelo_app/screens/audios_screens.dart';
