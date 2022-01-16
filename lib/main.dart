@@ -1,13 +1,26 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:modelo_app/contador/realtime.dart';
+import 'package:modelo_app/models/vogais_map.dart';
 import 'package:modelo_app/screens/form_screen.dart';
+import 'package:provider/provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
-  runApp(MyApp());
+  runApp(ChangeNotifierProvider(
+    create: (context) => Vogais(map: {
+      'a': false,
+      'ã': true,
+      'e': true,
+      'ê': true,
+      'i': true,
+      'ô': true,
+      'ó': true,
+      'u': true,
+    }),
+    child: MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
