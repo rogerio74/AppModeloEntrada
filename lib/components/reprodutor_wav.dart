@@ -8,6 +8,7 @@ import 'package:modelo_app/components/diretorio.dart';
 import 'package:modelo_app/components/erro_internet.dart';
 import 'package:modelo_app/contador/realtime.dart';
 import 'package:modelo_app/models/vogais_map.dart';
+import 'package:modelo_app/screens/final_sreen.dart';
 import 'package:provider/provider.dart';
 
 class ReprodutorWav extends StatefulWidget {
@@ -91,8 +92,18 @@ class _ReprodutorWavState extends State<ReprodutorWav> {
         Provider.of<Vogais>(context, listen: false)
             .updateStatusVogal(widget.vogal);
 
-        Navigator.of(context).pop();
-        Navigator.of(context).pop();
+        String ultimaVogal =
+            Provider.of<Vogais>(context, listen: false).getUltimaVogal();
+
+        if (widget.vogal != ultimaVogal) {
+          Navigator.of(context).pop();
+          Navigator.of(context).pop();
+        } else {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) => const FinalScreen()));
+        }
       } else {
         Navigator.of(context).pop();
         showGeneralDialog(
@@ -140,7 +151,7 @@ class _ReprodutorWavState extends State<ReprodutorWav> {
                 height: 25,
                 width: 25,
                 child: CircularProgressIndicator(
-                  color: Color(0xFF00d4ff),
+                  color: Color(0xFF0f0882),
                 ),
               )
             : TextButton(

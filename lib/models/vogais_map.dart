@@ -19,4 +19,12 @@ class Vogais extends ChangeNotifier {
     debugPrint(map.toString());
     notifyListeners();
   }
+
+  String getUltimaVogal() {
+    List vogaisLista = [];
+    map.forEach((key, value) {
+      vogaisLista.add(key);
+    });
+    return vogaisLista.last;
+  }
 }
