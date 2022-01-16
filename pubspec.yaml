@@ -43,6 +43,7 @@ dependencies:
   audioplayers:
   intl:
   firebase_database: ^9.0.5
+  provider:
  
 
 dev_dependencies:
