@@ -7,7 +7,6 @@ class Vogais extends ChangeNotifier {
   });
 
   void updateStatusVogal(String vogal) {
-    debugPrint(map.toString());
     map.update(vogal, (value) => true);
     List vogaisLista = [];
     map.forEach((key, value) {
@@ -16,7 +15,6 @@ class Vogais extends ChangeNotifier {
     int indexProximaVogal = vogaisLista.indexOf(vogal) + 1;
     String proximaVogal = vogaisLista[indexProximaVogal];
     map.update(proximaVogal, (value) => false);
-    debugPrint(map.toString());
     notifyListeners();
   }
 

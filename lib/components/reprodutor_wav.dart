@@ -89,13 +89,13 @@ class _ReprodutorWavState extends State<ReprodutorWav> {
           _sending = false;
         });
 
-        Provider.of<Vogais>(context, listen: false)
-            .updateStatusVogal(widget.vogal);
-
         String ultimaVogal =
             Provider.of<Vogais>(context, listen: false).getUltimaVogal();
 
         if (widget.vogal != ultimaVogal) {
+          Provider.of<Vogais>(context, listen: false)
+              .updateStatusVogal(widget.vogal);
+
           Navigator.of(context).pop();
           Navigator.of(context).pop();
         } else {
@@ -135,35 +135,41 @@ class _ReprodutorWavState extends State<ReprodutorWav> {
       backgroundColor: Theme.of(context).colorScheme.secondary,
       elevation: 5.0,
       actions: [
-        TextButton(
-          onPressed: () {
-            // _apagarArquivo();
-            widget.audioPlayer.stop();
-            Navigator.of(context).pop();
-          },
-          child: const Text(
-            "Não",
-            style: TextStyle(color: Colors.white, fontFamily: 'MochiyPopOne'),
-          ),
-        ),
         _sending
             ? const SizedBox(
                 height: 25,
                 width: 25,
                 child: CircularProgressIndicator(
-                  color: Color(0xFF0f0882),
+                  color: Colors.white,
                 ),
               )
-            : TextButton(
-                onPressed: () {
-                  _saveData();
-                },
-                child: const Text(
-                  "Sim",
-                  style: TextStyle(
-                      color: Colors.white, fontFamily: 'MochiyPopOne'),
-                ),
-              ),
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      // _apagarArquivo();
+                      widget.audioPlayer.stop();
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text(
+                      "Não",
+                      style: TextStyle(
+                          color: Colors.white, fontFamily: 'MochiyPopOne'),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      _saveData();
+                    },
+                    child: const Text(
+                      "Sim",
+                      style: TextStyle(
+                          color: Colors.white, fontFamily: 'MochiyPopOne'),
+                    ),
+                  ),
+                ],
+              )
       ],
     );
   }
