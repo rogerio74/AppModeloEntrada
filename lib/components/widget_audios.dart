@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:modelo_app/screens/gravacao_screen.dart';
 
@@ -66,7 +65,7 @@ class _WidgetAudioState extends State<WidgetAudio> {
         Positioned(
             left: 15,
             top: 15,
-            child: widget.isButtonDisabled ? lockIcon : unlockIcon),
+            child: widget.isButtonDisabled ? unlockIcon : lockIcon),
       ]),
     );
   }

@@ -63,7 +63,7 @@ class _GravacaoScreenState extends State<GravacaoScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Text(
-                    widget.vogal,
+                    widget.vogal.toUpperCase(),
                     style: const TextStyle(
                         fontFamily: 'MochiyPopOne',
                         fontSize: 150,
