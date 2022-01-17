@@ -58,7 +58,8 @@ class _ReprodutorWavState extends State<ReprodutorWav> {
         String nameTranscricaoWav =
             await Diretorio('/GravacaoApp').getNomeDoArquivo('/$nameWav.txt');
         io.File transcricao = io.File(nameTranscricaoWav);
-        transcricao.writeAsString(widget.vogal);
+        transcricao
+            .writeAsString('${widget.vogal} ${widget.vogal} ${widget.vogal}');
 
         Reference uploadWav = firebaseStorage
             .ref()
