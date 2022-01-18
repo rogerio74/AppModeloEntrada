@@ -8,17 +8,43 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
+  Map<String, Map<String, dynamic>> mapVogais = {
+    'u': {
+      'lock': true,
+      'num': 0,
+    },
+    'ó': {
+      'lock': true,
+      'num': 0,
+    },
+    'ô': {
+      'lock': true,
+      'num': 0,
+    },
+    'i': {
+      'lock': true,
+      'num': 0,
+    },
+    'ê': {
+      'lock': true,
+      'num': 0,
+    },
+    'e': {
+      'lock': true,
+      'num': 0,
+    },
+    'ã': {
+      'lock': true,
+      'num': 0,
+    },
+    'a': {
+      'lock': false,
+      'num': 0,
+    },
+  };
+
   runApp(ChangeNotifierProvider(
-    create: (context) => Vogais(map: {
-      'a': false,
-      'ã': true,
-      'e': true,
-      'ê': true,
-      'i': true,
-      'ô': true,
-      'ó': true,
-      'u': true,
-    }),
+    create: (context) => Vogais(map: mapVogais),
     child: MyApp(),
   ));
 }

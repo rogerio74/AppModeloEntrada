@@ -7,8 +7,12 @@ import 'package:provider/provider.dart';
 class AudiosScreen extends StatelessWidget {
   final File informacoesPessoais;
   final String folderName;
+  final int numeroArquivos;
   const AudiosScreen(
-      {Key? key, required this.informacoesPessoais, required this.folderName})
+      {Key? key,
+      required this.folderName,
+      required this.numeroArquivos,
+      required this.informacoesPessoais})
       : super(key: key);
 
   @override
@@ -33,22 +37,19 @@ class AudiosScreen extends StatelessWidget {
                 end: AlignmentDirectional.bottomCenter)),
         child: Consumer<Vogais>(
           builder: (context, vogais, child) {
-            List vogaisList = [];
-            vogaisList.isNotEmpty
-                ? vogaisList.clear()
-                : vogais.map.forEach((key, value) {
-                    vogaisList.add([key, value]);
-                  });
+            List vogaisList = vogais.getVogaisList(numeroArquivos);
             return GridView.builder(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3),
                 itemCount: vogaisList.length,
                 itemBuilder: (BuildContext context, int index) {
                   return WidgetAudio(
-                      vogal: vogaisList[index][0],
-                      informacoesPessoais: informacoesPessoais,
-                      folderName: folderName,
-                      isButtonDisabled: vogaisList[index][1]);
+                    vogal: vogaisList[index][0],
+                    informacoesPessoais: informacoesPessoais,
+                    folderName: folderName,
+                    isButtonDisabled: vogaisList[index][1],
+                    numeroArquivo: vogaisList[index][2],
+                  );
                 });
           },
         ),

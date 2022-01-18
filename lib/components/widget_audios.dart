@@ -7,12 +7,15 @@ class WidgetAudio extends StatefulWidget {
   final String folderName;
   final File informacoesPessoais;
   final bool isButtonDisabled;
+  final int numeroArquivo;
+
   const WidgetAudio({
     Key? key,
     required this.vogal,
     required this.informacoesPessoais,
     required this.folderName,
     required this.isButtonDisabled,
+    required this.numeroArquivo,
   }) : super(key: key);
 
   @override
@@ -41,6 +44,7 @@ class _WidgetAudioState extends State<WidgetAudio> {
                 context,
                 MaterialPageRoute(
                     builder: (BuildContext context) => GravacaoScreen(
+                        numeroArquivo: widget.numeroArquivo,
                         vogal: widget.vogal,
                         informacoesPessoais: widget.informacoesPessoais,
                         folderName: widget.folderName)));

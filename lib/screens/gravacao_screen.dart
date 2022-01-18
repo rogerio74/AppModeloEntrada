@@ -7,11 +7,13 @@ class GravacaoScreen extends StatefulWidget {
   final File informacoesPessoais;
   final String vogal;
   final String folderName;
+  final int numeroArquivo;
   const GravacaoScreen(
       {Key? key,
       required this.informacoesPessoais,
       required this.vogal,
-      required this.folderName})
+      required this.folderName,
+      required this.numeroArquivo})
       : super(key: key);
 
   @override
@@ -81,6 +83,7 @@ class _GravacaoScreenState extends State<GravacaoScreen> {
                               context: context,
                               informacoesPessoais: widget.informacoesPessoais,
                               folderName: widget.folderName,
+                              numeroArquivo: widget.numeroArquivo,
                               vogal: widget.vogal.toLowerCase(),
                               path: recorder.path!);
                           reprodutorWav.audioPlayer

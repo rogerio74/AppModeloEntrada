@@ -6,7 +6,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:modelo_app/components/diretorio.dart';
 import 'package:modelo_app/components/erro_internet.dart';
-import 'package:modelo_app/contador/realtime.dart';
 import 'package:modelo_app/models/vogais_map.dart';
 import 'package:modelo_app/screens/final_sreen.dart';
 import 'package:provider/provider.dart';
@@ -17,6 +16,7 @@ class ReprodutorWav extends StatefulWidget {
   final String path;
   final File informacoesPessoais;
   final String vogal;
+  final int numeroArquivo;
   final AudioPlayer audioPlayer = AudioPlayer();
   ReprodutorWav({
     Key? key,
@@ -25,6 +25,7 @@ class ReprodutorWav extends StatefulWidget {
     required this.path,
     required this.informacoesPessoais,
     required this.vogal,
+    required this.numeroArquivo,
   }) : super(key: key);
 
   @override
@@ -52,8 +53,7 @@ class _ReprodutorWavState extends State<ReprodutorWav> {
     });
     await checkConnection().then((internet) async {
       if (internet) {
-        int numWav = await database.incrementNumero('num_arquivo');
-        String nameWav = 'APX-$numWav';
+        String nameWav = 'APX-${widget.numeroArquivo}';
 
         String nameTranscricaoWav =
             await Diretorio('/GravacaoApp').getNomeDoArquivo('/$nameWav.txt');
@@ -93,17 +93,17 @@ class _ReprodutorWavState extends State<ReprodutorWav> {
         String ultimaVogal =
             Provider.of<Vogais>(context, listen: false).getUltimaVogal();
 
-        if (widget.vogal != ultimaVogal) {
-          Provider.of<Vogais>(context, listen: false)
-              .updateStatusVogal(widget.vogal);
-
-          Navigator.of(context).pop();
-          Navigator.of(context).pop();
-        } else {
+        if (widget.vogal == ultimaVogal) {
           Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (BuildContext context) => const FinalScreen()));
+        } else {
+          Provider.of<Vogais>(context, listen: false)
+              .updateStatusVogal(widget.vogal);
+
+          Navigator.pop(context);
+          Navigator.of(context).pop();
         }
       } else {
         Navigator.of(context).pop();

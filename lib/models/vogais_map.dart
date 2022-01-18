@@ -1,28 +1,41 @@
 import 'package:flutter/material.dart';
 
 class Vogais extends ChangeNotifier {
-  Map<String, bool> map;
+  Map<String, Map<String, dynamic>> map;
   Vogais({
     required this.map,
   });
 
   void updateStatusVogal(String vogal) {
-    map.update(vogal, (value) => true);
+    map[vogal]!.update('lock', (value) => true);
     List vogaisLista = [];
     map.forEach((key, value) {
       vogaisLista.add(key);
     });
-    int indexProximaVogal = vogaisLista.indexOf(vogal) + 1;
+    int indexProximaVogal = vogaisLista.indexOf(vogal) - 1;
     String proximaVogal = vogaisLista[indexProximaVogal];
-    map.update(proximaVogal, (value) => false);
+    map[proximaVogal]!.update('lock', (value) => false);
     notifyListeners();
   }
 
-  String getUltimaVogal() {
-    List vogaisLista = [];
+  List getVogaisList(int numero) {
+    List list = [];
+
     map.forEach((key, value) {
-      vogaisLista.add(key);
+      list.add([key, value['lock'], numero]);
+      numero--;
     });
-    return vogaisLista.last;
+    List listReversed = list.reversed.toList();
+    return listReversed;
+  }
+
+  String getUltimaVogal() {
+    List<String> list = [];
+
+    map.forEach((key, value) {
+      list.add(key);
+    });
+    List listReversed = list.reversed.toList();
+    return listReversed.last;
   }
 }

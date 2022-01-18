@@ -1,8 +1,4 @@
 import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/material.dart';
-
-//const String pasta = 'num_pasta';
-//const String arquivo = 'num_arquivo';
 
 class AppModeloDatabase {
   final DatabaseReference _databaseref =
@@ -23,10 +19,14 @@ class AppModeloDatabase {
   }
 
   Future<int> incrementNumero(child) async {
-    int numDaPasta = await _getNumero(child);
-    numDaPasta++;
-    await _saveNumero(child, numDaPasta);
-    return numDaPasta;
+    int numero = await _getNumero(child);
+    if (child == 'num_pasta') {
+      numero++;
+    } else {
+      numero += 8;
+    }
+    await _saveNumero(child, numero);
+    return numero;
   }
 }
 

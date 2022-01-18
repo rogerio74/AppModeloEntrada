@@ -1,6 +1,6 @@
 import 'dart:io' as io;
 import 'package:flutter/material.dart';
-import 'package:modelo_app/contador/realtime.dart';
+import 'package:modelo_app/models/realtime.dart';
 import 'package:modelo_app/components/diretorio.dart';
 import 'package:modelo_app/screens/audios_screens.dart';
 
@@ -195,6 +195,10 @@ class _FormularioState extends State<Formulario> {
                                                     await database
                                                         .incrementNumero(
                                                             'num_pasta');
+                                                int _numeroArquivos =
+                                                    await database
+                                                        .incrementNumero(
+                                                            'num_arquivo');
                                                 String _nomeDaPasta =
                                                     _getFolderName(
                                                         _sexoController.text,
@@ -224,10 +228,13 @@ class _FormularioState extends State<Formulario> {
                                                         builder: (BuildContext
                                                                 context) =>
                                                             AudiosScreen(
-                                                                informacoesPessoais:
-                                                                    informacoesPessoais,
-                                                                folderName:
-                                                                    _nomeDaPasta)));
+                                                              informacoesPessoais:
+                                                                  informacoesPessoais,
+                                                              folderName:
+                                                                  _nomeDaPasta,
+                                                              numeroArquivos:
+                                                                  _numeroArquivos,
+                                                            )));
                                               }
                                             },
                                             child: const Text('GRAVAR ÁUDIOS'),
