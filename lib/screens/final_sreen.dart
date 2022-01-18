@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:modelo_app/models/vogais_map.dart';
 import 'package:modelo_app/screens/form_screen.dart';
+import 'package:provider/provider.dart';
 
 class FinalScreen extends StatefulWidget {
   const FinalScreen({Key? key}) : super(key: key);
@@ -64,27 +66,28 @@ class _FinalScreenState extends State<FinalScreen> {
                           const SizedBox(
                             height: 60,
                           ),
-                          ElevatedButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      const Formulario(),
-                                ),
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                              primary: const Color(0xFF0f0882),
-                            ),
-                            child: const Text(
-                              'GRAVAR NOVOS ÁUDIOS',
-                              style: TextStyle(
-                                  fontFamily: 'MochiyPopOne',
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                          ),
+                          Consumer<Vogais>(builder: (context, vogais, child) {
+                            return ElevatedButton(
+                              onPressed: () {
+                                vogais.getNewMapVogais();
+                                Navigator.of(context).pushAndRemoveUntil(
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const Formulario()),
+                                    (Route<dynamic> route) => false);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: const Color(0xFF0f0882),
+                              ),
+                              child: const Text(
+                                'GRAVAR NOVOS ÁUDIOS',
+                                style: TextStyle(
+                                    fontFamily: 'MochiyPopOne',
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
+                              ),
+                            );
+                          }),
                           const SizedBox(
                             height: 10,
                           ),

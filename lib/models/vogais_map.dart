@@ -38,4 +38,14 @@ class Vogais extends ChangeNotifier {
     List listReversed = list.reversed.toList();
     return listReversed.last;
   }
+
+  void getNewMapVogais() {
+    List vogaisLista = [];
+    map.forEach((key, value) {
+      vogaisLista.add(key);
+    });
+    map[vogaisLista.last]!.update('lock', (value) => false);
+    map[vogaisLista.first]!.update('lock', (value) => true);
+    notifyListeners();
+  }
 }
