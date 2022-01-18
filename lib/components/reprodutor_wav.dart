@@ -1,11 +1,11 @@
 import 'dart:io' as io;
 import 'dart:io';
 import 'package:audioplayers/audioplayers.dart';
-import 'package:connectivity/connectivity.dart' as connection;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:modelo_app/components/diretorio.dart';
 import 'package:modelo_app/components/erro_internet.dart';
+import 'package:modelo_app/models/check_connection.dart';
 import 'package:modelo_app/models/vogais_map.dart';
 import 'package:modelo_app/screens/final_sreen.dart';
 import 'package:provider/provider.dart';
@@ -102,7 +102,7 @@ class _ReprodutorWavState extends State<ReprodutorWav> {
           Provider.of<Vogais>(context, listen: false)
               .updateStatusVogal(widget.vogal);
 
-          Navigator.pop(context);
+          Navigator.of(context).pop();
           Navigator.of(context).pop();
         }
       } else {
@@ -113,17 +113,6 @@ class _ReprodutorWavState extends State<ReprodutorWav> {
             pageBuilder: (_, __, ___) => const ErroConection());
       }
     });
-  }
-
-  Future<bool> checkConnection() async {
-    var connectivityResult =
-        await (connection.Connectivity().checkConnectivity());
-    if (connectivityResult == connection.ConnectivityResult.mobile) {
-      return true;
-    } else if (connectivityResult == connection.ConnectivityResult.wifi) {
-      return true;
-    }
-    return false;
   }
 
   @override

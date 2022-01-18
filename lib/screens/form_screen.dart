@@ -1,5 +1,7 @@
 import 'dart:io' as io;
 import 'package:flutter/material.dart';
+import 'package:modelo_app/components/erro_internet.dart';
+import 'package:modelo_app/models/check_connection.dart';
 import 'package:modelo_app/models/realtime.dart';
 import 'package:modelo_app/components/diretorio.dart';
 import 'package:modelo_app/screens/audios_screens.dart';
@@ -199,58 +201,83 @@ class _FormularioState extends State<Formulario> {
                                           width: 140,
                                           child: ElevatedButton(
                                             onPressed: () async {
-                                              setState(() {
-                                                _processing = true;
-                                              });
                                               if (_formKey.currentState!
                                                   .validate()) {
-                                                int _numeroPasta =
-                                                    await database
-                                                        .incrementNumero(
-                                                            'num_pasta');
-                                                String _numeroPastaConvertido =
-                                                    convertNumeroPasta(
-                                                        _numeroPasta);
-                                                int _numeroArquivos =
-                                                    await database
-                                                        .incrementNumero(
-                                                            'num_arquivo');
-                                                String _nomeDaPasta =
-                                                    _getFolderName(
-                                                        _sexoController.text,
-                                                        _numeroPastaConvertido);
-                                                String pathInformacoes =
-                                                    await Diretorio(
-                                                            '/GravacaoApp')
-                                                        .getNomeDoArquivo(
-                                                            '/$_nomeDaPasta.txt');
-                                                String content = _getContent(
-                                                    _nomeDaPasta,
-                                                    _emailController.text,
-                                                    _nomeController.text,
-                                                    _idadeController.text,
-                                                    _sexoController.text);
-                                                io.File informacoesPessoais =
-                                                    io.File(pathInformacoes);
-                                                informacoesPessoais
-                                                    .writeAsString(content);
                                                 setState(() {
-                                                  _processing = false;
+                                                  _processing = true;
                                                 });
+                                                await checkConnection()
+                                                    .then((internet) async {
+                                                  if (internet) {
+                                                    int _numeroPasta =
+                                                        await database
+                                                            .incrementNumero(
+                                                                'num_pasta');
+                                                    String
+                                                        _numeroPastaConvertido =
+                                                        convertNumeroPasta(
+                                                            _numeroPasta);
+                                                    int _numeroArquivos =
+                                                        await database
+                                                            .incrementNumero(
+                                                                'num_arquivo');
+                                                    String _nomeDaPasta =
+                                                        _getFolderName(
+                                                            _sexoController
+                                                                .text,
+                                                            _numeroPastaConvertido);
+                                                    String pathInformacoes =
+                                                        await Diretorio(
+                                                                '/GravacaoApp')
+                                                            .getNomeDoArquivo(
+                                                                '/$_nomeDaPasta.txt');
+                                                    String content =
+                                                        _getContent(
+                                                            _nomeDaPasta,
+                                                            _emailController
+                                                                .text,
+                                                            _nomeController
+                                                                .text,
+                                                            _idadeController
+                                                                .text,
+                                                            _sexoController
+                                                                .text);
+                                                    io.File
+                                                        informacoesPessoais =
+                                                        io.File(
+                                                            pathInformacoes);
+                                                    informacoesPessoais
+                                                        .writeAsString(content);
+                                                    setState(() {
+                                                      _processing = false;
+                                                    });
 
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (BuildContext
-                                                                context) =>
-                                                            AudiosScreen(
-                                                              informacoesPessoais:
-                                                                  informacoesPessoais,
-                                                              folderName:
-                                                                  _nomeDaPasta,
-                                                              numeroArquivos:
-                                                                  _numeroArquivos,
-                                                            )));
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (BuildContext
+                                                                    context) =>
+                                                                AudiosScreen(
+                                                                  informacoesPessoais:
+                                                                      informacoesPessoais,
+                                                                  folderName:
+                                                                      _nomeDaPasta,
+                                                                  numeroArquivos:
+                                                                      _numeroArquivos,
+                                                                )));
+                                                  } else {
+                                                    setState(() {
+                                                      _processing = false;
+                                                    });
+                                                    showGeneralDialog(
+                                                        context: context,
+                                                        barrierColor:
+                                                            Colors.black54,
+                                                        pageBuilder: (_, __,
+                                                                ___) =>
+                                                            const ErroConection());
+                                                  }
+                                                });
                                               }
                                             },
                                             child: const Text('GRAVAR ÁUDIOS'),
