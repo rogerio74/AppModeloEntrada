@@ -7,7 +7,7 @@ class GravacaoScreen extends StatefulWidget {
   final File informacoesPessoais;
   final String vogal;
   final String folderName;
-  final int numeroArquivo;
+  final String numeroArquivo;
   const GravacaoScreen(
       {Key? key,
       required this.informacoesPessoais,

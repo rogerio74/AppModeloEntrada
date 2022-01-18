@@ -44,6 +44,19 @@ class _FormularioState extends State<Formulario> {
     return name;
   }
 
+  String convertNumeroPasta(int numero) {
+    String numeroString = numero.toString();
+    if (numeroString.length == 1) {
+      return '000$numero';
+    } else if (numeroString.length == 2) {
+      return '00$numero';
+    } else if (numeroString.length == 3) {
+      return '0$numero';
+    } else {
+      return numeroString;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -195,6 +208,9 @@ class _FormularioState extends State<Formulario> {
                                                     await database
                                                         .incrementNumero(
                                                             'num_pasta');
+                                                String _numeroPastaConvertido =
+                                                    convertNumeroPasta(
+                                                        _numeroPasta);
                                                 int _numeroArquivos =
                                                     await database
                                                         .incrementNumero(
@@ -202,7 +218,7 @@ class _FormularioState extends State<Formulario> {
                                                 String _nomeDaPasta =
                                                     _getFolderName(
                                                         _sexoController.text,
-                                                        _numeroPasta);
+                                                        _numeroPastaConvertido);
                                                 String pathInformacoes =
                                                     await Diretorio(
                                                             '/GravacaoApp')

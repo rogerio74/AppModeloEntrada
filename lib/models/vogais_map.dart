@@ -48,4 +48,17 @@ class Vogais extends ChangeNotifier {
     map[vogaisLista.first]!.update('lock', (value) => true);
     notifyListeners();
   }
+
+  String convertNumero(int numero) {
+    String numeroString = numero.toString();
+    if (numeroString.length == 1) {
+      return '000$numero';
+    } else if (numeroString.length == 2) {
+      return '00$numero';
+    } else if (numeroString.length == 3) {
+      return '0$numero';
+    } else {
+      return numeroString;
+    }
+  }
 }

@@ -7,7 +7,7 @@ class WidgetAudio extends StatefulWidget {
   final String folderName;
   final File informacoesPessoais;
   final bool isButtonDisabled;
-  final int numeroArquivo;
+  final String numeroArquivo;
 
   const WidgetAudio({
     Key? key,

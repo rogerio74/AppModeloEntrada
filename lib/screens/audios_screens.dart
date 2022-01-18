@@ -43,12 +43,14 @@ class AudiosScreen extends StatelessWidget {
                     crossAxisCount: 3),
                 itemCount: vogaisList.length,
                 itemBuilder: (BuildContext context, int index) {
+                  String numeroArquivoConvertido =
+                      vogais.convertNumero(vogaisList[index][2]);
                   return WidgetAudio(
                     vogal: vogaisList[index][0],
                     informacoesPessoais: informacoesPessoais,
                     folderName: folderName,
                     isButtonDisabled: vogaisList[index][1],
-                    numeroArquivo: vogaisList[index][2],
+                    numeroArquivo: numeroArquivoConvertido,
                   );
                 });
           },

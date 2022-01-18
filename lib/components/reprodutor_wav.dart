@@ -16,7 +16,7 @@ class ReprodutorWav extends StatefulWidget {
   final String path;
   final File informacoesPessoais;
   final String vogal;
-  final int numeroArquivo;
+  final String numeroArquivo;
   final AudioPlayer audioPlayer = AudioPlayer();
   ReprodutorWav({
     Key? key,
