@@ -36,8 +36,7 @@ class _FormularioState extends State<Formulario> {
 
   String _getContent(
       String nomePasta, String email, String nome, String idade, String sexo) {
-    String content =
-        'PASTA: $nomePasta\nEMAIL: $email\nNOME: $nome\nIDADE:$idade\nSEXO: $sexo';
+    String content = '$nomePasta\n$email\n$nome\n$idade\n$sexo';
     return content;
   }
 
