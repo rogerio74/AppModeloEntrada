@@ -50,6 +50,9 @@ android {
         versionName flutterVersionName
         multiDexEnabled true
     }
+    configurations {
+        compile.exclude group: 'com.google.zxing'
+    }
 
     buildTypes {
         release {
