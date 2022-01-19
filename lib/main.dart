@@ -59,7 +59,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primaryColor: Colors.green.shade300,
+        primaryColor: const Color(0xFF0f0882),
         colorScheme:
             theme.colorScheme.copyWith(secondary: const Color(0xFF160bac)),
       ),

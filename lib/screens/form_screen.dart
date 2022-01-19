@@ -282,8 +282,8 @@ class _FormularioState extends State<Formulario> {
                                             },
                                             child: const Text('GRAVAR ÁUDIOS'),
                                             style: ElevatedButton.styleFrom(
-                                                primary:
-                                                    const Color(0xFF0f0882)),
+                                                primary: Theme.of(context)
+                                                    .primaryColor),
                                           ),
                                         )
                                 ],
