@@ -4,7 +4,9 @@ import 'package:modelo_app/components/erro_internet.dart';
 import 'package:modelo_app/models/check_connection.dart';
 import 'package:modelo_app/models/realtime.dart';
 import 'package:modelo_app/components/diretorio.dart';
+import 'package:modelo_app/models/vogais_map.dart';
 import 'package:modelo_app/screens/audios_screens.dart';
+import 'package:provider/provider.dart';
 
 class Formulario extends StatefulWidget {
   const Formulario({Key? key}) : super(key: key);
@@ -198,92 +200,101 @@ class _FormularioState extends State<Formulario> {
                                           margin:
                                               const EdgeInsets.only(top: 10),
                                           width: 140,
-                                          child: ElevatedButton(
-                                            onPressed: () async {
-                                              if (_formKey.currentState!
-                                                  .validate()) {
-                                                setState(() {
-                                                  _processing = true;
-                                                });
-                                                await checkConnection()
-                                                    .then((internet) async {
-                                                  if (internet) {
-                                                    int _numeroPasta =
-                                                        await database
-                                                            .incrementNumero(
-                                                                'num_pasta');
-                                                    String
-                                                        _numeroPastaConvertido =
-                                                        convertNumeroPasta(
-                                                            _numeroPasta);
-                                                    int _numeroArquivos =
-                                                        await database
-                                                            .incrementNumero(
-                                                                'num_arquivo');
-                                                    String _nomeDaPasta =
-                                                        _getFolderName(
-                                                            _sexoController
-                                                                .text,
-                                                            _numeroPastaConvertido);
-                                                    String pathInformacoes =
-                                                        await Diretorio(
-                                                                '/GravacaoApp')
-                                                            .getNomeDoArquivo(
-                                                                '/$_nomeDaPasta.txt');
-                                                    String content =
-                                                        _getContent(
-                                                            _nomeDaPasta,
-                                                            _emailController
-                                                                .text,
-                                                            _nomeController
-                                                                .text,
-                                                            _idadeController
-                                                                .text,
-                                                            _sexoController
-                                                                .text);
-                                                    io.File
-                                                        informacoesPessoais =
-                                                        io.File(
-                                                            pathInformacoes);
-                                                    informacoesPessoais
-                                                        .writeAsString(content);
-                                                    setState(() {
-                                                      _processing = false;
-                                                    });
+                                          child: Consumer<Vogais>(builder:
+                                              (context, vogais, child) {
+                                            return ElevatedButton(
+                                              onPressed: () async {
+                                                if (_formKey.currentState!
+                                                    .validate()) {
+                                                  setState(() {
+                                                    _processing = true;
+                                                  });
+                                                  await checkConnection()
+                                                      .then((internet) async {
+                                                    if (internet) {
+                                                      int _numeroPasta =
+                                                          await database
+                                                              .incrementNumero(
+                                                                  'num_pasta',
+                                                                  1);
+                                                      String
+                                                          _numeroPastaConvertido =
+                                                          convertNumeroPasta(
+                                                              _numeroPasta);
+                                                      int numArquivo = vogais
+                                                          .getNumElementos;
+                                                      int _numeroArquivos =
+                                                          await database
+                                                              .incrementNumero(
+                                                                  'num_arquivo',
+                                                                  numArquivo);
+                                                      String _nomeDaPasta =
+                                                          _getFolderName(
+                                                              _sexoController
+                                                                  .text,
+                                                              _numeroPastaConvertido);
+                                                      String pathInformacoes =
+                                                          await Diretorio(
+                                                                  '/GravacaoApp')
+                                                              .getNomeDoArquivo(
+                                                                  '/$_nomeDaPasta.txt');
+                                                      String content =
+                                                          _getContent(
+                                                              _nomeDaPasta,
+                                                              _emailController
+                                                                  .text,
+                                                              _nomeController
+                                                                  .text,
+                                                              _idadeController
+                                                                  .text,
+                                                              _sexoController
+                                                                  .text);
+                                                      io.File
+                                                          informacoesPessoais =
+                                                          io.File(
+                                                              pathInformacoes);
+                                                      informacoesPessoais
+                                                          .writeAsString(
+                                                              content);
+                                                      setState(() {
+                                                        _processing = false;
+                                                      });
 
-                                                    Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder: (BuildContext
-                                                                    context) =>
-                                                                AudiosScreen(
-                                                                  informacoesPessoais:
-                                                                      informacoesPessoais,
-                                                                  folderName:
-                                                                      _nomeDaPasta,
-                                                                  numeroArquivos:
-                                                                      _numeroArquivos,
-                                                                )));
-                                                  } else {
-                                                    setState(() {
-                                                      _processing = false;
-                                                    });
-                                                    showGeneralDialog(
-                                                        context: context,
-                                                        barrierColor:
-                                                            Colors.black54,
-                                                        pageBuilder: (_, __,
-                                                                ___) =>
-                                                            const ErroConection());
-                                                  }
-                                                });
-                                              }
-                                            },
-                                            child: const Text('GRAVAR ÁUDIOS'),
-                                            style: ElevatedButton.styleFrom(
-                                                primary: Theme.of(context)
-                                                    .primaryColor),
-                                          ),
+                                                      Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (BuildContext
+                                                                      context) =>
+                                                                  AudiosScreen(
+                                                                    informacoesPessoais:
+                                                                        informacoesPessoais,
+                                                                    folderName:
+                                                                        _nomeDaPasta,
+                                                                    numeroArquivos:
+                                                                        _numeroArquivos,
+                                                                  )));
+                                                    } else {
+                                                      setState(() {
+                                                        _processing = false;
+                                                      });
+                                                      showGeneralDialog(
+                                                          context: context,
+                                                          barrierColor:
+                                                              Colors.black54,
+                                                          pageBuilder: (_, __,
+                                                                  ___) =>
+                                                              const ErroConection());
+                                                    }
+                                                  });
+                                                }
+                                              },
+                                              child:
+                                                  const Text('GRAVAR ÁUDIOS'),
+                                              style: ElevatedButton.styleFrom(
+                                                  primary: Theme.of(context)
+                                                      .primaryColor),
+                                            );
+                                          }),
                                         )
                                 ],
                               )),

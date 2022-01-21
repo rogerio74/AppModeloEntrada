@@ -39,6 +39,11 @@ class Vogais extends ChangeNotifier {
     return listReversed.last;
   }
 
+  int get getNumElementos {
+    int numero = map.length;
+    return numero;
+  }
+
   void getNewMapVogais() {
     List vogaisLista = [];
     map.forEach((key, value) {

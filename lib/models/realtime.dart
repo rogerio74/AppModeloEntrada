@@ -18,15 +18,16 @@ class AppModeloDatabase {
     return valorPasta;
   }
 
-  Future<int> incrementNumero(child) async {
-    int numero = await _getNumero(child);
+  Future<int> incrementNumero(String child, int numero) async {
+    int ultimoNumero = await _getNumero(child);
+
     if (child == 'num_pasta') {
-      numero++;
+      ultimoNumero++;
     } else {
-      numero += 8;
+      ultimoNumero += numero;
     }
-    await _saveNumero(child, numero);
-    return numero;
+    await _saveNumero(child, ultimoNumero);
+    return ultimoNumero;
   }
 }
 
