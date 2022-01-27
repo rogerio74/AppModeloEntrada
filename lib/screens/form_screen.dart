@@ -6,6 +6,7 @@ import 'package:modelo_app/models/realtime.dart';
 import 'package:modelo_app/components/diretorio.dart';
 import 'package:modelo_app/models/vogais_map.dart';
 import 'package:modelo_app/screens/audios_screens.dart';
+import 'package:modelo_app/screens/final_sreen.dart';
 import 'package:provider/provider.dart';
 
 class Formulario extends StatefulWidget {
@@ -60,6 +61,114 @@ class _FormularioState extends State<Formulario> {
     }
   }
 
+  Future<void> _showAlertDialogUpdate(
+    String idUser,
+  ) async {
+    Map _userData = await database.getUserWithId(idUser);
+
+    String _nome = _userData['nome'];
+    String _idade = _userData['idade'];
+    String _sexo = _userData['sexo'];
+    int _numArquivos = _userData['numArquivos'];
+    String _numPasta = _userData['numPasta'];
+    String _email = _userData['email'];
+
+    Map<String, dynamic> newUserData = {
+      'email': _email,
+      'nome': _nomeController.text,
+      'idade': _idadeController.text,
+      'sexo': _sexoController.text
+    };
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('E-mail em uso'),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: [
+                  const Text(
+                    'O e-mail inserido está em uso. \nComo deseja proseguir?',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  Text(
+                      'Dados: \n   Nome: $_nome \n   Idade: $_idade \n   Sexo: $_sexo'),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const Text(
+                    'OBS: ao prosseguir com este e-mail, os dados já\n gravados serão sobrescritos por novos dados.',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.red,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return SizedBox(
+                            height: 30,
+                            child: AlertDialog(
+                              title: const Text('Confirmar'),
+                              content: SingleChildScrollView(
+                                child: ListBody(
+                                  children: const [
+                                    Text(
+                                      'Tem certeza?',
+                                      style: TextStyle(fontSize: 18),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              actions: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    TextButton(
+                                        onPressed: () => Navigator.pop(context),
+                                        child: const Text('NÃO')),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    TextButton(
+                                      onPressed: () async {
+                                        await database.updateUserData(
+                                            idUser, newUserData);
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        AudiosScreen(
+                                                          folderName: _numPasta,
+                                                          numeroArquivos:
+                                                              _numArquivos,
+                                                        )));
+                                      },
+                                      child: const Text('SIM'),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          );
+                        });
+                  },
+                  child: const Text('PROSSEGUIR COM ESTE E-MAIL')),
+              TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('INSERIR NOVO EMAIL'))
+            ],
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,121 +206,131 @@ class _FormularioState extends State<Formulario> {
                                 color: Color(0xFF0f0882)),
                           ),
                           Form(
-                              key: _formKey,
-                              child: Column(
-                                children: [
-                                  TextFormField(
-                                    controller: _emailController,
-                                    validator: (email) => _validateEmail(email),
-                                    onSaved: (email) {
-                                      setState(() {
-                                        _nomeController.text = email!;
-                                      });
-                                    },
-                                    decoration: const InputDecoration(
-                                        labelText: 'E-mail',
-                                        labelStyle: TextStyle(
-                                            fontFamily: 'MochiyPopOne',
-                                            fontSize: 16,
-                                            color: Color(0xFF0f0882))),
-                                  ),
-                                  TextFormField(
-                                    controller: _nomeController,
-                                    validator: (nome) {
-                                      if (nome!.isEmpty) {
-                                        return "Preencha o nome";
-                                      } else if (nome.isNotEmpty) {
-                                        return null;
-                                      }
-                                    },
-                                    onSaved: (nome) {
-                                      setState(() {
-                                        _nomeController.text = nome!;
-                                      });
-                                    },
-                                    decoration: const InputDecoration(
-                                        labelText: 'Nome',
-                                        labelStyle: TextStyle(
-                                            fontFamily: 'MochiyPopOne',
-                                            fontSize: 16,
-                                            color: Color(0xFF0f0882))),
-                                  ),
-                                  TextFormField(
-                                    controller: _idadeController,
-                                    keyboardType:
-                                        const TextInputType.numberWithOptions(
-                                            decimal: true),
-                                    decoration: const InputDecoration(
-                                        labelText: 'Idade',
-                                        labelStyle: TextStyle(
-                                            fontFamily: 'MochiyPopOne',
-                                            fontSize: 16,
-                                            color: Color(0xFF0f0882))),
-                                    validator: (idade) {
-                                      if (idade!.isEmpty ||
-                                          idade.contains(' ')) {
-                                        return "Preencha com uma idade válida";
-                                      } else if (idade.isNotEmpty) {
-                                        return null;
-                                      }
-                                    },
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      const Text(
-                                        'Sexo:',
-                                        style: TextStyle(
-                                            fontFamily: 'MochiyPopOne',
-                                            fontSize: 16,
+                            key: _formKey,
+                            child: Column(
+                              children: [
+                                TextFormField(
+                                  controller: _emailController,
+                                  validator: (email) => _validateEmail(email),
+                                  onSaved: (email) {
+                                    setState(() {
+                                      _nomeController.text = email!;
+                                    });
+                                  },
+                                  decoration: const InputDecoration(
+                                      labelText: 'E-mail',
+                                      labelStyle: TextStyle(
+                                          fontFamily: 'MochiyPopOne',
+                                          fontSize: 16,
+                                          color: Color(0xFF0f0882))),
+                                ),
+                                TextFormField(
+                                  controller: _nomeController,
+                                  validator: (nome) {
+                                    if (nome!.isEmpty) {
+                                      return "Preencha o nome";
+                                    } else if (nome.isNotEmpty) {
+                                      return null;
+                                    }
+                                  },
+                                  onSaved: (nome) {
+                                    setState(() {
+                                      _nomeController.text = nome!;
+                                    });
+                                  },
+                                  decoration: const InputDecoration(
+                                      labelText: 'Nome',
+                                      labelStyle: TextStyle(
+                                          fontFamily: 'MochiyPopOne',
+                                          fontSize: 16,
+                                          color: Color(0xFF0f0882))),
+                                ),
+                                TextFormField(
+                                  controller: _idadeController,
+                                  keyboardType:
+                                      const TextInputType.numberWithOptions(
+                                          decimal: true),
+                                  decoration: const InputDecoration(
+                                      labelText: 'Idade',
+                                      labelStyle: TextStyle(
+                                          fontFamily: 'MochiyPopOne',
+                                          fontSize: 16,
+                                          color: Color(0xFF0f0882))),
+                                  validator: (idade) {
+                                    if (idade!.isEmpty || idade.contains(' ')) {
+                                      return "Preencha com uma idade válida";
+                                    } else if (idade.isNotEmpty) {
+                                      return null;
+                                    }
+                                  },
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    const Text(
+                                      'Sexo:',
+                                      style: TextStyle(
+                                          fontFamily: 'MochiyPopOne',
+                                          fontSize: 16,
+                                          color: Color(0xFF0f0882)),
+                                    ),
+                                    DropdownButton(
+                                      hint: Text(
+                                        _sexoController.text,
+                                        style: const TextStyle(
                                             color: Color(0xFF0f0882)),
                                       ),
-                                      DropdownButton(
-                                        hint: Text(
-                                          _sexoController.text,
-                                          style: const TextStyle(
-                                              color: Color(0xFF0f0882)),
+                                      items: ['F', 'M'].map((String sexo) {
+                                        return DropdownMenuItem<String>(
+                                          value: sexo,
+                                          child: Text(sexo),
+                                        );
+                                      }).toList(),
+                                      onChanged: (sexo) {
+                                        setState(() {
+                                          _sexoController.text =
+                                              sexo.toString();
+                                        });
+                                      },
+                                    ),
+                                  ],
+                                ),
+                                _processing
+                                    ? const SizedBox(
+                                        height: 30,
+                                        width: 30,
+                                        child: CircularProgressIndicator(
+                                          color: Color(0xFF0f0882),
                                         ),
-                                        items: ['F', 'M'].map((String sexo) {
-                                          return DropdownMenuItem<String>(
-                                            value: sexo,
-                                            child: Text(sexo),
-                                          );
-                                        }).toList(),
-                                        onChanged: (sexo) {
-                                          setState(() {
-                                            _sexoController.text =
-                                                sexo.toString();
-                                          });
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                  _processing
-                                      ? const SizedBox(
-                                          height: 30,
-                                          width: 30,
-                                          child: CircularProgressIndicator(
-                                            color: Color(0xFF0f0882),
-                                          ),
-                                        )
-                                      : Container(
-                                          margin:
-                                              const EdgeInsets.only(top: 10),
-                                          width: 140,
-                                          child: Consumer<Vogais>(builder:
-                                              (context, vogais, child) {
-                                            return ElevatedButton(
-                                              onPressed: () async {
-                                                if (_formKey.currentState!
-                                                    .validate()) {
-                                                  setState(() {
-                                                    _processing = true;
-                                                  });
-                                                  await checkConnection()
-                                                      .then((internet) async {
-                                                    if (internet) {
+                                      )
+                                    : Container(
+                                        margin: const EdgeInsets.only(top: 10),
+                                        width: 140,
+                                        child: ElevatedButton(
+                                          onPressed: () async {
+                                            if (_formKey.currentState!
+                                                .validate()) {
+                                              setState(() {
+                                                _processing = true;
+                                              });
+                                              await checkConnection().then(
+                                                (internet) async {
+                                                  if (internet) {
+                                                    String? isUsedEmail =
+                                                        await database
+                                                            .isUsedEmail(
+                                                                _emailController
+                                                                    .text);
+                                                    if (isUsedEmail != null) {
+                                                      await _showAlertDialogUpdate(
+                                                        isUsedEmail,
+                                                      );
+
+                                                      setState(() {
+                                                        _processing = false;
+                                                      });
+                                                    } else {
                                                       int _numeroPasta =
                                                           await database
                                                               .incrementNumero(
@@ -221,8 +340,11 @@ class _FormularioState extends State<Formulario> {
                                                           _numeroPastaConvertido =
                                                           convertNumeroPasta(
                                                               _numeroPasta);
-                                                      int numArquivo = vogais
-                                                          .getNumElementos;
+                                                      int numArquivo =
+                                                          Provider.of<Vogais>(
+                                                                  context,
+                                                                  listen: false)
+                                                              .getNumElementos;
                                                       int _numeroArquivos =
                                                           await database
                                                               .incrementNumero(
@@ -233,14 +355,8 @@ class _FormularioState extends State<Formulario> {
                                                               _sexoController
                                                                   .text,
                                                               _numeroPastaConvertido);
-                                                      String pathInformacoes =
-                                                          await Diretorio(
-                                                                  '/GravacaoApp')
-                                                              .getNomeDoArquivo(
-                                                                  '/$_nomeDaPasta.txt');
-                                                      String content =
-                                                          _getContent(
-                                                              _nomeDaPasta,
+                                                      await database
+                                                          .sendNewUserData(
                                                               _emailController
                                                                   .text,
                                                               _nomeController
@@ -248,56 +364,57 @@ class _FormularioState extends State<Formulario> {
                                                               _idadeController
                                                                   .text,
                                                               _sexoController
-                                                                  .text);
-                                                      io.File
-                                                          informacoesPessoais =
-                                                          io.File(
-                                                              pathInformacoes);
-                                                      informacoesPessoais
-                                                          .writeAsString(
-                                                              content);
-                                                      setState(() {
-                                                        _processing = false;
-                                                      });
+                                                                  .text,
+                                                              _nomeDaPasta,
+                                                              _numeroArquivos);
 
-                                                      Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                              builder: (BuildContext
-                                                                      context) =>
-                                                                  AudiosScreen(
-                                                                    informacoesPessoais:
-                                                                        informacoesPessoais,
-                                                                    folderName:
-                                                                        _nomeDaPasta,
-                                                                    numeroArquivos:
-                                                                        _numeroArquivos,
-                                                                  )));
-                                                    } else {
-                                                      setState(() {
-                                                        _processing = false;
-                                                      });
-                                                      showGeneralDialog(
-                                                          context: context,
-                                                          barrierColor:
-                                                              Colors.black54,
-                                                          pageBuilder: (_, __,
-                                                                  ___) =>
-                                                              const ErroConection());
+                                                      await Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (BuildContext
+                                                                  context) =>
+                                                              AudiosScreen(
+                                                            folderName:
+                                                                _nomeDaPasta,
+                                                            numeroArquivos:
+                                                                _numeroArquivos,
+                                                          ),
+                                                        ),
+                                                      );
+
+                                                      setState(
+                                                        () {
+                                                          _processing = false;
+                                                        },
+                                                      );
                                                     }
-                                                  });
-                                                }
-                                              },
-                                              child:
-                                                  const Text('GRAVAR ÁUDIOS'),
-                                              style: ElevatedButton.styleFrom(
-                                                  primary: Theme.of(context)
-                                                      .primaryColor),
-                                            );
-                                          }),
-                                        )
-                                ],
-                              )),
+                                                  } else {
+                                                    setState(
+                                                      () {
+                                                        _processing = false;
+                                                      },
+                                                    );
+                                                    showGeneralDialog(
+                                                        context: context,
+                                                        barrierColor:
+                                                            Colors.black54,
+                                                        pageBuilder: (_, __,
+                                                                ___) =>
+                                                            const ErroConection());
+                                                  }
+                                                },
+                                              );
+                                            }
+                                          },
+                                          child: const Text('GRAVAR ÁUDIOS'),
+                                          style: ElevatedButton.styleFrom(
+                                              primary: Theme.of(context)
+                                                  .primaryColor),
+                                        ),
+                                      ),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ),
