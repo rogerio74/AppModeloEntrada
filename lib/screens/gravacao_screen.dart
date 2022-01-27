@@ -4,17 +4,16 @@ import 'package:modelo_app/components/recorder_wav.dart';
 import 'package:modelo_app/components/reprodutor_wav.dart';
 
 class GravacaoScreen extends StatefulWidget {
-  final File informacoesPessoais;
   final String vogal;
   final String folderName;
   final String numeroArquivo;
-  const GravacaoScreen(
-      {Key? key,
-      required this.informacoesPessoais,
-      required this.vogal,
-      required this.folderName,
-      required this.numeroArquivo})
-      : super(key: key);
+
+  const GravacaoScreen({
+    Key? key,
+    required this.vogal,
+    required this.folderName,
+    required this.numeroArquivo,
+  }) : super(key: key);
 
   @override
   _GravacaoScreenState createState() => _GravacaoScreenState();
@@ -81,7 +80,6 @@ class _GravacaoScreenState extends State<GravacaoScreen> {
                           await recorder.stop();
                           ReprodutorWav reprodutorWav = ReprodutorWav(
                               context: context,
-                              informacoesPessoais: widget.informacoesPessoais,
                               folderName: widget.folderName,
                               numeroArquivo: widget.numeroArquivo,
                               vogal: widget.vogal.toLowerCase(),

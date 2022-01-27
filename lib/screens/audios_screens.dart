@@ -5,15 +5,14 @@ import 'package:modelo_app/models/vogais_map.dart';
 import 'package:provider/provider.dart';
 
 class AudiosScreen extends StatelessWidget {
-  final File informacoesPessoais;
   final String folderName;
   final int numeroArquivos;
-  const AudiosScreen(
-      {Key? key,
-      required this.folderName,
-      required this.numeroArquivos,
-      required this.informacoesPessoais})
-      : super(key: key);
+
+  const AudiosScreen({
+    Key? key,
+    required this.folderName,
+    required this.numeroArquivos,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +46,6 @@ class AudiosScreen extends StatelessWidget {
                       vogais.convertNumero(vogaisList[index][2]);
                   return WidgetAudio(
                     vogal: vogaisList[index][0],
-                    informacoesPessoais: informacoesPessoais,
                     folderName: folderName,
                     isButtonDisabled: vogaisList[index][1],
                     numeroArquivo: numeroArquivoConvertido,

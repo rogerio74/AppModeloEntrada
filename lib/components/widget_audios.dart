@@ -5,14 +5,12 @@ import 'package:modelo_app/screens/gravacao_screen.dart';
 class WidgetAudio extends StatefulWidget {
   final String vogal;
   final String folderName;
-  final File informacoesPessoais;
   final bool isButtonDisabled;
   final String numeroArquivo;
 
   const WidgetAudio({
     Key? key,
     required this.vogal,
-    required this.informacoesPessoais,
     required this.folderName,
     required this.isButtonDisabled,
     required this.numeroArquivo,
@@ -46,7 +44,6 @@ class _WidgetAudioState extends State<WidgetAudio> {
                     builder: (BuildContext context) => GravacaoScreen(
                         numeroArquivo: widget.numeroArquivo,
                         vogal: widget.vogal,
-                        informacoesPessoais: widget.informacoesPessoais,
                         folderName: widget.folderName)));
       },
       child: Stack(children: [

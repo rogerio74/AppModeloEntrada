@@ -14,7 +14,6 @@ class ReprodutorWav extends StatefulWidget {
   final BuildContext context;
   final String folderName;
   final String path;
-  final File informacoesPessoais;
   final String vogal;
   final String numeroArquivo;
   final AudioPlayer audioPlayer = AudioPlayer();
@@ -23,7 +22,6 @@ class ReprodutorWav extends StatefulWidget {
     required this.context,
     required this.folderName,
     required this.path,
-    required this.informacoesPessoais,
     required this.vogal,
     required this.numeroArquivo,
   }) : super(key: key);
@@ -38,8 +36,6 @@ class _ReprodutorWavState extends State<ReprodutorWav> {
 
   ouvirAudio() async {
     widget.audioPlayer.play(widget.path, isLocal: true);
-    //io.sleep(Duration(seconds: ));
-    //showAlertDialog(context);
   }
 
   _apagarArquivo() {
@@ -76,13 +72,6 @@ class _ReprodutorWavState extends State<ReprodutorWav> {
             .child(nameWav + '.txt');
 
         await uploadTranscricao.putFile(File(nameTranscricaoWav));
-
-        Reference uploadTxt = firebaseStorage
-            .ref()
-            .child('voluntarios')
-            .child(widget.folderName + '.txt');
-
-        await uploadTxt.putFile(widget.informacoesPessoais);
 
         _apagarArquivo();
 
@@ -164,117 +153,3 @@ class _ReprodutorWavState extends State<ReprodutorWav> {
     );
   }
 }
-
-//------------------------------------------------------------------------------
-
-// class ReprodutorWav {
-//   BuildContext context;
-//   String email;
-//   String path;
-//   File informacoesPessoais;
-//   String vogal;
-//   AudioPlayer audioPlayer = AudioPlayer();
-//   final firebaseStorage = FirebaseStorage.instance;
-
-//   ReprodutorWav({
-//     required this.context,
-//     required this.email,
-//     required this.path,
-//     required this.informacoesPessoais,
-//     required this.vogal,
-//   });
-
-//   ouvirAudio() async {
-//     audioPlayer.play(path, isLocal: true);
-//     //io.sleep(Duration(seconds: ));
-//     showAlertDialog(context);
-//   }
-
-//   _apagarArquivo() {
-//     var file = File(path);
-//     file.delete();
-//   }
-
-//   Future<void> _saveData() async {
-//     await checkConnection().then((internet) async {
-//       if (internet) {
-//         // CircularProgressIndicator :true
-//         var uploadWav = firebaseStorage
-//             .ref()
-//             .child('audios')
-//             .child(email)
-//             .child(vogal + '.wav');
-
-//         await uploadWav.putFile(File(path));
-
-//         var uploadTxt =
-//             firebaseStorage.ref().child('voluntarios').child(email + '.txt');
-
-//         await uploadTxt.putFile(informacoesPessoais);
-
-//         _apagarArquivo();
-
-//         // CircularProgressIndicator :false
-
-//         Navigator.of(context).pop();
-//         Navigator.of(context).pop();
-//       } else {
-//         Navigator.of(context).pop();
-//         showGeneralDialog(
-//             context: context,
-//             barrierColor: Colors.black54,
-//             pageBuilder: (_, __, ___) => const ErroConection());
-//       }
-//     });
-//   }
-
-//   Future<bool> checkConnection() async {
-//     var connectivityResult =
-//         await (connection.Connectivity().checkConnectivity());
-//     if (connectivityResult == connection.ConnectivityResult.mobile) {
-//       return true;
-//     } else if (connectivityResult == connection.ConnectivityResult.wifi) {
-//       return true;
-//     }
-//     return false;
-//   }
-
-//   showAlertDialog(BuildContext context) {
-//     Widget apagarButton = TextButton(
-//       onPressed: () {
-//         // _apagarArquivo();
-//         audioPlayer.stop();
-//         Navigator.of(context).pop();
-//       },
-//       child: const Text(
-//         "Não",
-//         style: TextStyle(color: Colors.white, fontFamily: 'MochiyPopOne'),
-//       ),
-//     );
-
-//     Widget salvarButton = TextButton(
-//         onPressed: () {
-//           _saveData();
-//         },
-//         child: const Text("Sim",
-//             style: TextStyle(color: Colors.white, fontFamily: 'MochiyPopOne')));
-
-//     AlertDialog alert = AlertDialog(
-//         content: const Text(
-//           "O ÁUDIO FOI GRAVADO SEM INTERFERÊNCIAS?",
-//           style: TextStyle(color: Colors.white, fontFamily: 'MochiyPopOne'),
-//         ),
-//         backgroundColor: Theme.of(context).colorScheme.secondary,
-//         elevation: 5.0,
-//         actions: [
-//           apagarButton,
-//           salvarButton,
-//         ]);
-//     showDialog(
-//         context: context,
-//         barrierDismissible: false,
-//         builder: (_) {
-//           return alert;
-//         });
-//   }
-// }
