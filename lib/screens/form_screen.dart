@@ -83,23 +83,47 @@ class _FormularioState extends State<Formulario> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text('E-mail em uso'),
+            title: const Text(
+              'E-mail em uso',
+              style: TextStyle(
+                fontFamily: 'MochiyPopOne',
+                color: Color(0xFF0f0882),
+                fontSize: 16,
+              ),
+            ),
+            backgroundColor: Colors.grey.shade200,
             content: SingleChildScrollView(
               child: ListBody(
                 children: [
                   const Text(
                     'O e-mail inserido está em uso. \nComo deseja proseguir?',
-                    style: TextStyle(fontSize: 18),
+                    textAlign: TextAlign.justify,
+                    style: TextStyle(
+                      fontFamily: 'MochiyPopOne',
+                      fontSize: 14,
+                      color: Color(0xFF0f0882),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 5,
                   ),
                   Text(
-                      'Dados: \n   Nome: $_nome \n   Idade: $_idade \n   Sexo: $_sexo'),
+                    'Dados:\n-Nome: $_nome\n-Idade: $_idade\n-Sexo: $_sexo',
+                    style: const TextStyle(
+                      fontFamily: 'MochiyPopOne',
+                      fontSize: 14,
+                      color: Color(0xFF0f0882),
+                    ),
+                  ),
                   const SizedBox(
                     height: 20,
                   ),
                   const Text(
-                    'OBS: ao prosseguir com este e-mail, os dados já\n gravados serão sobrescritos por novos dados.',
+                    'OBS: ao prosseguir com este e-mail, os áudios já gravados serão sobrescritos por novos áudios.',
+                    textAlign: TextAlign.justify,
                     style: TextStyle(
-                      fontSize: 12,
+                      fontFamily: 'MochiyPopOne',
+                      fontSize: 10,
                       color: Colors.red,
                     ),
                   ),
@@ -108,62 +132,116 @@ class _FormularioState extends State<Formulario> {
             ),
             actions: [
               TextButton(
-                  onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return SizedBox(
-                            height: 30,
-                            child: AlertDialog(
-                              title: const Text('Confirmar'),
-                              content: SingleChildScrollView(
-                                child: ListBody(
-                                  children: const [
-                                    Text(
-                                      'Tem certeza?',
-                                      style: TextStyle(fontSize: 18),
-                                    )
-                                  ],
-                                ),
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return SizedBox(
+                          height: 30,
+                          child: AlertDialog(
+                            title: const Text(
+                              'Confirmar',
+                              style: TextStyle(
+                                fontFamily: 'MochiyPopOne',
+                                color: Color(0xFF0f0882),
+                                fontSize: 16,
                               ),
-                              actions: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    TextButton(
-                                        onPressed: () => Navigator.pop(context),
-                                        child: const Text('NÃO')),
-                                    const SizedBox(
-                                      width: 5,
-                                    ),
-                                    TextButton(
-                                      onPressed: () async {
-                                        await database.updateUserData(
-                                            idUser, newUserData);
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder:
-                                                    (BuildContext context) =>
-                                                        AudiosScreen(
-                                                          folderName: _numPasta,
-                                                          numeroArquivos:
-                                                              _numArquivos,
-                                                        )));
-                                      },
-                                      child: const Text('SIM'),
-                                    ),
-                                  ],
-                                ),
-                              ],
                             ),
-                          );
-                        });
-                  },
-                  child: const Text('PROSSEGUIR COM ESTE E-MAIL')),
+                            backgroundColor: Colors.grey.shade200,
+                            content: SingleChildScrollView(
+                              child: ListBody(
+                                children: const [
+                                  Text(
+                                    'Tem certeza?',
+                                    style: TextStyle(
+                                      fontFamily: 'MochiyPopOne',
+                                      fontSize: 14,
+                                      color: Color(0xFF0f0882),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            actions: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  TextButton(
+                                    style: TextButton.styleFrom(
+                                      backgroundColor: const Color(0xFF0f0882),
+                                    ),
+                                    onPressed: () => Navigator.pop(context),
+                                    child: const Text(
+                                      'NÃO',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  TextButton(
+                                    style: TextButton.styleFrom(
+                                      backgroundColor: const Color(0xFF0f0882),
+                                    ),
+                                    onPressed: () async {
+                                      await database.updateUserData(
+                                          idUser, newUserData);
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (BuildContext context) =>
+                                                  AudiosScreen(
+                                                    folderName: _numPasta,
+                                                    numeroArquivos:
+                                                        _numArquivos,
+                                                  )));
+                                    },
+                                    child: const Text(
+                                      'SIM',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        );
+                      });
+                },
+                style: TextButton.styleFrom(
+                  backgroundColor: const Color(0xFF0f0882),
+                ),
+                child: const Text(
+                  'PROSSEGUIR COM ESTE E-MAIL',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
               TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text('INSERIR NOVO EMAIL'))
+                style: TextButton.styleFrom(
+                  backgroundColor: const Color(0xFF0f0882),
+                ),
+                onPressed: () => Navigator.pop(context),
+                child: const Text(
+                  'INSERIR NOVO EMAIL',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
             ],
           );
         });
@@ -192,7 +270,6 @@ class _FormularioState extends State<Formulario> {
                       width: MediaQuery.of(context).size.width * 0.8,
                       decoration: BoxDecoration(
                         color: Colors.grey.shade200,
-                        // border: Border.all(color: Colors.white, width: 2),
                         borderRadius:
                             const BorderRadius.all(Radius.circular(30.0)),
                       ),

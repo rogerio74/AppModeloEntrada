@@ -48,7 +48,6 @@ class _FinalScreenState extends State<FinalScreen> {
                       width: MediaQuery.of(context).size.width * 0.8,
                       decoration: BoxDecoration(
                         color: Colors.grey.shade200,
-                        // border: Border.all(color: Colors.white, width: 2),
                         borderRadius:
                             const BorderRadius.all(Radius.circular(30.0)),
                       ),
