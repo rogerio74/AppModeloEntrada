@@ -64,7 +64,8 @@ class _FormularioState extends State<Formulario> {
   Future<void> _showAlertDialogUpdate(
     String idUser,
   ) async {
-    Map _userData = await database.getUserWithId(idUser);
+    Map _userData =
+        await Provider.of<AppModeloDatabase>(context).getUserWithId(idUser);
 
     String _nome = _userData['nome'];
     String _idade = _userData['idade'];
@@ -188,8 +189,9 @@ class _FormularioState extends State<Formulario> {
                                       backgroundColor: const Color(0xFF0f0882),
                                     ),
                                     onPressed: () async {
-                                      await database.updateUserData(
-                                          idUser, newUserData);
+                                      await Provider.of<AppModeloDatabase>(
+                                              context)
+                                          .updateUserData(idUser, newUserData);
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
@@ -395,7 +397,9 @@ class _FormularioState extends State<Formulario> {
                                                 (internet) async {
                                                   if (internet) {
                                                     String? isUsedEmail =
-                                                        await database
+                                                        await Provider.of<
+                                                                    AppModeloDatabase>(
+                                                                context)
                                                             .isUsedEmail(
                                                                 _emailController
                                                                     .text);
@@ -409,7 +413,9 @@ class _FormularioState extends State<Formulario> {
                                                       });
                                                     } else {
                                                       int _numeroPasta =
-                                                          await database
+                                                          await Provider.of<
+                                                                      AppModeloDatabase>(
+                                                                  context)
                                                               .incrementNumero(
                                                                   'num_pasta',
                                                                   1);
@@ -423,7 +429,9 @@ class _FormularioState extends State<Formulario> {
                                                                   listen: false)
                                                               .getNumElementos;
                                                       int _numeroArquivos =
-                                                          await database
+                                                          await Provider.of<
+                                                                      AppModeloDatabase>(
+                                                                  context)
                                                               .incrementNumero(
                                                                   'num_arquivo',
                                                                   numArquivo);
@@ -432,7 +440,9 @@ class _FormularioState extends State<Formulario> {
                                                               _sexoController
                                                                   .text,
                                                               _numeroPastaConvertido);
-                                                      await database
+                                                      await Provider.of<
+                                                                  AppModeloDatabase>(
+                                                              context)
                                                           .sendNewUserData(
                                                               _emailController
                                                                   .text,

@@ -1,9 +1,7 @@
-import 'dart:convert';
-
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
-class AppModeloDatabase {
+class AppModeloDatabase extends ChangeNotifier {
   final DatabaseReference _databaseref =
       FirebaseDatabase.instance.ref('app_modelo');
 
@@ -89,5 +87,3 @@ class AppModeloDatabase {
     await _databaseref.child('voluntarios').child(id).update(newData);
   }
 }
-
-final AppModeloDatabase database = AppModeloDatabase();

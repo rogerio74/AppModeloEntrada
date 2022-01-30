@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:modelo_app/models/realtime.dart';
 import 'package:modelo_app/models/vogais_map.dart';
 import 'package:modelo_app/screens/form_screen.dart';
 import 'package:provider/provider.dart';
@@ -43,10 +44,21 @@ Future<void> main() async {
     },
   };
 
-  runApp(ChangeNotifierProvider(
-    create: (context) => Vogais(map: mapVogais),
-    child: MyApp(),
-  ));
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => Vogais(
+            map: mapVogais,
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => AppModeloDatabase(),
+        ),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
