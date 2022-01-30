@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:modelo_app/components/diretorio.dart';
 import 'package:modelo_app/components/erro_internet.dart';
 import 'package:modelo_app/models/check_connection.dart';
+import 'package:modelo_app/database/firebase_dao.dart';
 import 'package:modelo_app/models/vogais_map.dart';
 import 'package:modelo_app/screens/final_sreen.dart';
 import 'package:provider/provider.dart';
@@ -51,27 +52,21 @@ class _ReprodutorWavState extends State<ReprodutorWav> {
       if (internet) {
         String nameWav = 'APX-${widget.numeroArquivo}';
 
-        String nameTranscricaoWav =
+        String pathTranscricaoWav =
             await Diretorio('/GravacaoApp').getNomeDoArquivo('/$nameWav.txt');
-        io.File transcricao = io.File(nameTranscricaoWav);
+        io.File transcricao = io.File(pathTranscricaoWav);
         transcricao
             .writeAsString('${widget.vogal} ${widget.vogal} ${widget.vogal}');
 
-        Reference uploadWav = firebaseStorage
-            .ref()
-            .child('folders')
-            .child(widget.folderName)
-            .child(nameWav + '.wav');
-
-        await uploadWav.putFile(File(widget.path));
-
-        Reference uploadTranscricao = firebaseStorage
-            .ref()
-            .child('folders')
-            .child(widget.folderName)
-            .child(nameWav + '.txt');
-
-        await uploadTranscricao.putFile(File(nameTranscricaoWav));
+        await Provider.of<FirebaseDao>(
+          context,
+          listen: false,
+        ).uploadWavAndTranscricao(
+          folderName: widget.folderName,
+          fileName: nameWav,
+          audioPath: widget.path,
+          transcricaoPath: pathTranscricaoWav,
+        );
 
         _apagarArquivo();
 
@@ -115,12 +110,17 @@ class _ReprodutorWavState extends State<ReprodutorWav> {
       elevation: 5.0,
       actions: [
         _sending
-            ? const SizedBox(
-                height: 25,
-                width: 25,
-                child: CircularProgressIndicator(
-                  color: Colors.white,
-                ),
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  SizedBox(
+                    height: 25,
+                    width: 25,
+                    child: CircularProgressIndicator(
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
               )
             : Row(
                 mainAxisAlignment: MainAxisAlignment.end,

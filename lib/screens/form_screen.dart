@@ -1,12 +1,9 @@
-import 'dart:io' as io;
 import 'package:flutter/material.dart';
 import 'package:modelo_app/components/erro_internet.dart';
 import 'package:modelo_app/models/check_connection.dart';
-import 'package:modelo_app/models/realtime.dart';
-import 'package:modelo_app/components/diretorio.dart';
+import 'package:modelo_app/database/firebase_dao.dart';
 import 'package:modelo_app/models/vogais_map.dart';
 import 'package:modelo_app/screens/audios_screens.dart';
-import 'package:modelo_app/screens/final_sreen.dart';
 import 'package:provider/provider.dart';
 
 class Formulario extends StatefulWidget {
@@ -37,12 +34,6 @@ class _FormularioState extends State<Formulario> {
     }
   }
 
-  String _getContent(
-      String nomePasta, String email, String nome, String idade, String sexo) {
-    String content = '$nomePasta\n$email\n$nome\n$idade\n$sexo';
-    return content;
-  }
-
   String _getFolderName(sexo, numPasta) {
     String name = 'APX-$sexo$numPasta';
     return name;
@@ -64,8 +55,8 @@ class _FormularioState extends State<Formulario> {
   Future<void> _showAlertDialogUpdate(
     String idUser,
   ) async {
-    Map _userData =
-        await Provider.of<AppModeloDatabase>(context).getUserWithId(idUser);
+    Map _userData = await Provider.of<FirebaseDao>(context, listen: false)
+        .getUserWithId(idUser);
 
     String _nome = _userData['nome'];
     String _idade = _userData['idade'];
@@ -74,12 +65,6 @@ class _FormularioState extends State<Formulario> {
     String _numPasta = _userData['numPasta'];
     String _email = _userData['email'];
 
-    Map<String, dynamic> newUserData = {
-      'email': _email,
-      'nome': _nomeController.text,
-      'idade': _idadeController.text,
-      'sexo': _sexoController.text
-    };
     return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -188,19 +173,17 @@ class _FormularioState extends State<Formulario> {
                                     style: TextButton.styleFrom(
                                       backgroundColor: const Color(0xFF0f0882),
                                     ),
-                                    onPressed: () async {
-                                      await Provider.of<AppModeloDatabase>(
-                                              context)
-                                          .updateUserData(idUser, newUserData);
+                                    onPressed: () {
                                       Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (BuildContext context) =>
-                                                  AudiosScreen(
-                                                    folderName: _numPasta,
-                                                    numeroArquivos:
-                                                        _numArquivos,
-                                                  )));
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              AudiosScreen(
+                                            folderName: _numPasta,
+                                            numeroArquivos: _numArquivos,
+                                          ),
+                                        ),
+                                      );
                                     },
                                     child: const Text(
                                       'SIM',
@@ -398,11 +381,12 @@ class _FormularioState extends State<Formulario> {
                                                   if (internet) {
                                                     String? isUsedEmail =
                                                         await Provider.of<
-                                                                    AppModeloDatabase>(
-                                                                context)
-                                                            .isUsedEmail(
-                                                                _emailController
-                                                                    .text);
+                                                            FirebaseDao>(
+                                                      context,
+                                                      listen: false,
+                                                    ).isUsedEmail(
+                                                            _emailController
+                                                                .text);
                                                     if (isUsedEmail != null) {
                                                       await _showAlertDialogUpdate(
                                                         isUsedEmail,
@@ -414,11 +398,11 @@ class _FormularioState extends State<Formulario> {
                                                     } else {
                                                       int _numeroPasta =
                                                           await Provider.of<
-                                                                      AppModeloDatabase>(
-                                                                  context)
-                                                              .incrementNumero(
-                                                                  'num_pasta',
-                                                                  1);
+                                                              FirebaseDao>(
+                                                        context,
+                                                        listen: false,
+                                                      ).incrementNumero(
+                                                              'num_pasta', 1);
                                                       String
                                                           _numeroPastaConvertido =
                                                           convertNumeroPasta(
@@ -430,30 +414,28 @@ class _FormularioState extends State<Formulario> {
                                                               .getNumElementos;
                                                       int _numeroArquivos =
                                                           await Provider.of<
-                                                                      AppModeloDatabase>(
-                                                                  context)
-                                                              .incrementNumero(
-                                                                  'num_arquivo',
-                                                                  numArquivo);
+                                                              FirebaseDao>(
+                                                        context,
+                                                        listen: false,
+                                                      ).incrementNumero(
+                                                              'num_arquivo',
+                                                              numArquivo);
                                                       String _nomeDaPasta =
                                                           _getFolderName(
                                                               _sexoController
                                                                   .text,
                                                               _numeroPastaConvertido);
                                                       await Provider.of<
-                                                                  AppModeloDatabase>(
-                                                              context)
-                                                          .sendNewUserData(
-                                                              _emailController
-                                                                  .text,
-                                                              _nomeController
-                                                                  .text,
-                                                              _idadeController
-                                                                  .text,
-                                                              _sexoController
-                                                                  .text,
-                                                              _nomeDaPasta,
-                                                              _numeroArquivos);
+                                                          FirebaseDao>(
+                                                        context,
+                                                        listen: false,
+                                                      ).sendNewUserData(
+                                                          _emailController.text,
+                                                          _nomeController.text,
+                                                          _idadeController.text,
+                                                          _sexoController.text,
+                                                          _nomeDaPasta,
+                                                          _numeroArquivos);
 
                                                       await Navigator.push(
                                                         context,
@@ -468,19 +450,16 @@ class _FormularioState extends State<Formulario> {
                                                           ),
                                                         ),
                                                       );
-
-                                                      setState(
-                                                        () {
-                                                          _processing = false;
-                                                        },
-                                                      );
                                                     }
-                                                  } else {
                                                     setState(
                                                       () {
                                                         _processing = false;
                                                       },
                                                     );
+                                                  } else {
+                                                    setState(() {
+                                                      _processing = false;
+                                                    });
                                                     showGeneralDialog(
                                                         context: context,
                                                         barrierColor:
