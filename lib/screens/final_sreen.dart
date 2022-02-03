@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:modelo_app/models/vogais_map.dart';
-import 'package:modelo_app/screens/form_screen.dart';
+import 'package:modelo_app/screens/termos_de_uso_screen.dart';
 import 'package:provider/provider.dart';
 
 class FinalScreen extends StatefulWidget {
@@ -72,7 +72,7 @@ class _FinalScreenState extends State<FinalScreen> {
                                 Navigator.of(context).pushAndRemoveUntil(
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            const Formulario()),
+                                            const TermosScreen()),
                                     (Route<dynamic> route) => false);
                               },
                               style: ElevatedButton.styleFrom(
