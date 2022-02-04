@@ -7,12 +7,14 @@ class GravacaoScreen extends StatefulWidget {
   final String vogal;
   final String folderName;
   final String numeroArquivo;
+  final bool apraxico;
 
   const GravacaoScreen({
     Key? key,
     required this.vogal,
     required this.folderName,
     required this.numeroArquivo,
+    required this.apraxico,
   }) : super(key: key);
 
   @override
@@ -21,6 +23,24 @@ class GravacaoScreen extends StatefulWidget {
 
 class _GravacaoScreenState extends State<GravacaoScreen> {
   RecorderWav recorder = RecorderWav();
+
+  Text _isApraxico() {
+    if (widget.apraxico == true) {
+      return Text(
+        'Sustente a vogal "${widget.vogal.toUpperCase()}" por 5 segundos\n uma vez',
+        textAlign: TextAlign.center,
+        style: const TextStyle(
+            fontFamily: 'MochiyPopOne', fontSize: 18, color: Color(0xFF0f0882)),
+      );
+    } else {
+      return Text(
+        'Sustente a vogal "${widget.vogal.toUpperCase()}" por 4 segundos\n três vezes',
+        textAlign: TextAlign.center,
+        style: const TextStyle(
+            fontFamily: 'MochiyPopOne', fontSize: 18, color: Color(0xFF0f0882)),
+      );
+    }
+  }
 
   @override
   void initState() {
@@ -70,14 +90,7 @@ class _GravacaoScreenState extends State<GravacaoScreen> {
                         fontSize: 150,
                         color: Color(0xFF0f0882)),
                   ),
-                  Text(
-                    'Sustente a vogal "${widget.vogal.toUpperCase()}"\n 3 vezes',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontFamily: 'MochiyPopOne',
-                        fontSize: 18,
-                        color: Color(0xFF0f0882)),
-                  ),
+                  _isApraxico(),
                   Container(
                     decoration: BoxDecoration(
                         color: Theme.of(context).colorScheme.secondary,
