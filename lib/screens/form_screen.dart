@@ -75,6 +75,7 @@ class _FormularioState extends State<Formulario> {
           nome: _nome,
           idade: _idade,
           sexo: _sexo,
+          apraxico: _apraxico,
           routePage: AudiosScreen(
             folderName: _numPasta,
             numeroArquivos: _numArquivos,

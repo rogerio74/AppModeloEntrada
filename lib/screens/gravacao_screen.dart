@@ -24,24 +24,6 @@ class GravacaoScreen extends StatefulWidget {
 class _GravacaoScreenState extends State<GravacaoScreen> {
   RecorderWav recorder = RecorderWav();
 
-  Text _isApraxico() {
-    if (widget.apraxico == true) {
-      return Text(
-        'Sustente a vogal "${widget.vogal.toUpperCase()}" por 5 segundos\n uma vez',
-        textAlign: TextAlign.center,
-        style: const TextStyle(
-            fontFamily: 'MochiyPopOne', fontSize: 18, color: Color(0xFF0f0882)),
-      );
-    } else {
-      return Text(
-        'Sustente a vogal "${widget.vogal.toUpperCase()}" por 4 segundos\n três vezes',
-        textAlign: TextAlign.center,
-        style: const TextStyle(
-            fontFamily: 'MochiyPopOne', fontSize: 18, color: Color(0xFF0f0882)),
-      );
-    }
-  }
-
   @override
   void initState() {
     super.initState();
@@ -90,7 +72,23 @@ class _GravacaoScreenState extends State<GravacaoScreen> {
                         fontSize: 150,
                         color: Color(0xFF0f0882)),
                   ),
-                  _isApraxico(),
+                  widget.apraxico
+                      ? Text(
+                          'Sustente a vogal "${widget.vogal.toUpperCase()}"\n por 5 segundos, uma vez',
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                              fontFamily: 'MochiyPopOne',
+                              fontSize: 18,
+                              color: Color(0xFF0f0882)),
+                        )
+                      : Text(
+                          'Sustente a vogal "${widget.vogal.toUpperCase()}"\n por 4 segundos, três vezes',
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                              fontFamily: 'MochiyPopOne',
+                              fontSize: 18,
+                              color: Color(0xFF0f0882)),
+                        ),
                   Container(
                     decoration: BoxDecoration(
                         color: Theme.of(context).colorScheme.secondary,

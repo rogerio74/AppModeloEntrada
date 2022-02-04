@@ -5,16 +5,19 @@ class UpdateAlertDialog extends StatelessWidget {
   final String idade;
   final String sexo;
   final Widget routePage;
-  const UpdateAlertDialog({
+  final bool apraxico;
+  UpdateAlertDialog({
     Key? key,
     required this.nome,
     required this.idade,
     required this.sexo,
     required this.routePage,
+    required this.apraxico,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    String isApraxico = apraxico ? 'Sim' : 'Não';
     return AlertDialog(
       title: const Text(
         'E-mail em uso',
@@ -41,7 +44,7 @@ class UpdateAlertDialog extends StatelessWidget {
               height: 5,
             ),
             Text(
-              'Dados:\n-Nome: $nome\n-Idade: $idade\n-Sexo: $sexo',
+              'Dados:\n-Nome: $nome\n-Idade: $idade\n-Sexo: $sexo\n-Apraxico: $isApraxico',
               style: const TextStyle(
                 fontFamily: 'MochiyPopOne',
                 fontSize: 14,
