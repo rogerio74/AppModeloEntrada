@@ -66,6 +66,7 @@ class _FormularioState extends State<Formulario> {
     int _numArquivos = _userData['numArquivos'];
     String _numPasta = _userData['numPasta'];
     String _email = _userData['email'];
+    bool _apraxico = _userData['apraxico'];
 
     return showDialog(
       context: context,
@@ -77,6 +78,7 @@ class _FormularioState extends State<Formulario> {
           routePage: AudiosScreen(
             folderName: _numPasta,
             numeroArquivos: _numArquivos,
+            apraxico: _apraxico,
           ),
         );
       },
@@ -189,6 +191,7 @@ class _FormularioState extends State<Formulario> {
                                           color: Color(0xFF0f0882)),
                                     ),
                                     DropdownButton(
+                                      iconSize: 32,
                                       hint: Text(
                                         _sexoController.text,
                                         style: const TextStyle(
@@ -328,6 +331,7 @@ class _FormularioState extends State<Formulario> {
                                                                 _nomeDaPasta,
                                                             numeroArquivos:
                                                                 _numeroArquivos,
+                                                            apraxico: _apraxico,
                                                           ),
                                                         ),
                                                       );

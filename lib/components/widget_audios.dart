@@ -7,6 +7,7 @@ class WidgetAudio extends StatefulWidget {
   final String folderName;
   final bool isButtonDisabled;
   final String numeroArquivo;
+  final bool apraxico;
 
   const WidgetAudio({
     Key? key,
@@ -14,6 +15,7 @@ class WidgetAudio extends StatefulWidget {
     required this.folderName,
     required this.isButtonDisabled,
     required this.numeroArquivo,
+    required this.apraxico,
   }) : super(key: key);
 
   @override
@@ -42,9 +44,11 @@ class _WidgetAudioState extends State<WidgetAudio> {
                 context,
                 MaterialPageRoute(
                     builder: (BuildContext context) => GravacaoScreen(
-                        numeroArquivo: widget.numeroArquivo,
-                        vogal: widget.vogal,
-                        folderName: widget.folderName)));
+                          numeroArquivo: widget.numeroArquivo,
+                          vogal: widget.vogal,
+                          folderName: widget.folderName,
+                          apraxico: widget.apraxico,
+                        )));
       },
       child: Stack(children: [
         Container(
