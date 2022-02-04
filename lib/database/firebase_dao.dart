@@ -35,14 +35,15 @@ class FirebaseDao extends ChangeNotifier {
     return ultimoNumero;
   }
 
-  Future<void> sendNewUserData(
-    String email,
-    String nome,
-    String idade,
-    String sexo,
-    String numPasta,
-    int numArquivos,
-  ) async {
+  Future<void> sendNewUserData({
+    required String email,
+    required String nome,
+    required String idade,
+    required String sexo,
+    required String numPasta,
+    required int numArquivos,
+    required bool apraxico,
+  }) async {
     Map userData = {
       'email': email,
       'nome': nome,
@@ -50,6 +51,7 @@ class FirebaseDao extends ChangeNotifier {
       'sexo': sexo,
       'numPasta': numPasta,
       'numArquivos': numArquivos,
+      'apraxico': apraxico,
     };
     await _realtimeDatabaseRef.child('voluntarios').push().set(userData);
   }

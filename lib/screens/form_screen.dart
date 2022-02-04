@@ -16,6 +16,7 @@ class Formulario extends StatefulWidget {
 
 class _FormularioState extends State<Formulario> {
   bool _processing = false;
+  bool _apraxico = false;
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _nomeController = TextEditingController();
@@ -178,7 +179,7 @@ class _FormularioState extends State<Formulario> {
                                 ),
                                 Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     const Text(
                                       'Sexo:',
@@ -193,20 +194,41 @@ class _FormularioState extends State<Formulario> {
                                         style: const TextStyle(
                                             color: Color(0xFF0f0882)),
                                       ),
-                                      items: ['F', 'M'].map((String sexo) {
+                                      items: ['Feminino', 'Masculino']
+                                          .map((String sexo) {
                                         return DropdownMenuItem<String>(
                                           value: sexo,
-                                          child: Text(sexo),
+                                          child: Text(
+                                            sexo,
+                                            style: const TextStyle(
+                                                color: Color(0xFF0f0882)),
+                                          ),
                                         );
                                       }).toList(),
                                       onChanged: (sexo) {
                                         setState(() {
-                                          _sexoController.text =
-                                              sexo.toString();
+                                          String _strSexo = sexo.toString();
+                                          _sexoController.text = _strSexo[0];
                                         });
                                       },
                                     ),
                                   ],
+                                ),
+                                SwitchListTile(
+                                  title: const Text(
+                                    'Possui apraxia',
+                                    style: TextStyle(
+                                        fontFamily: 'MochiyPopOne',
+                                        // fontSize: 16,
+                                        color: Color(0xFF0f0882)),
+                                  ),
+                                  activeColor: const Color(0xFF0f0882),
+                                  value: _apraxico,
+                                  onChanged: (isApraxico) {
+                                    setState(() {
+                                      _apraxico = isApraxico;
+                                    });
+                                  },
                                 ),
                                 _processing
                                     ? const SizedBox(
@@ -280,12 +302,21 @@ class _FormularioState extends State<Formulario> {
                                                         context,
                                                         listen: false,
                                                       ).sendNewUserData(
-                                                          _emailController.text,
-                                                          _nomeController.text,
-                                                          _idadeController.text,
-                                                          _sexoController.text,
-                                                          _nomeDaPasta,
-                                                          _numeroArquivos);
+                                                          email:
+                                                              _emailController
+                                                                  .text,
+                                                          nome: _nomeController
+                                                              .text,
+                                                          idade:
+                                                              _idadeController
+                                                                  .text,
+                                                          sexo: _sexoController
+                                                              .text,
+                                                          numPasta:
+                                                              _nomeDaPasta,
+                                                          numArquivos:
+                                                              _numeroArquivos,
+                                                          apraxico: _apraxico);
 
                                                       await Navigator.push(
                                                         context,
