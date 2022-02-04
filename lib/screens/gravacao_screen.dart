@@ -70,6 +70,14 @@ class _GravacaoScreenState extends State<GravacaoScreen> {
                         fontSize: 150,
                         color: Color(0xFF0f0882)),
                   ),
+                  Text(
+                    'Sustente a vogal "${widget.vogal.toUpperCase()}"\n 3 vezes',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontFamily: 'MochiyPopOne',
+                        fontSize: 18,
+                        color: Color(0xFF0f0882)),
+                  ),
                   Container(
                     decoration: BoxDecoration(
                         color: Theme.of(context).colorScheme.secondary,

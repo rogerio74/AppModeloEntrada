@@ -71,7 +71,7 @@ class MyApp extends StatelessWidget {
         colorScheme:
             theme.colorScheme.copyWith(secondary: const Color(0xFF160bac)),
       ),
-      home: const TermosScreen(),
+      home: TermosScreen(),
     );
   }
 }
