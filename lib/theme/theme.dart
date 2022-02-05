@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 class AppModeloEntradaTheme {
   static const _prymaryColor = 0xFF0f0882;
-  static const _whiteColor = 0xFFFFFFFF;
 
   static const MaterialColor color = MaterialColor(
     _prymaryColor,
@@ -13,7 +12,8 @@ class AppModeloEntradaTheme {
       400: Color(0xFFF44336),
       500: Color(0xFF160bac),
       600: Color(_prymaryColor),
-      700: Color(_whiteColor),
+      700: Color(0xFFFFFFFF),
+      800: Colors.black
     },
   );
 
@@ -26,53 +26,49 @@ class AppModeloEntradaTheme {
   }
 
   static ThemeData theme = ThemeData(
+    iconTheme: IconThemeData(color: color.shade500, size: 30),
     primaryColor: color.shade600,
     elevatedButtonTheme: ElevatedButtonThemeData(style: elevatedButtonStyle()),
     appBarTheme: AppBarTheme(
-        backgroundColor: color.shade500,
-        titleTextStyle: theme.textTheme.headline2
-            ?.copyWith(color: color.shade700, fontWeight: FontWeight.bold)),
-    textTheme: const TextTheme(
-      headline1: TextStyle(
-        color: Color(_prymaryColor),
-      ),
-      headline2: TextStyle(
-        fontFamily: 'MochiyPopOne',
-        color: Color(_prymaryColor),
-      ),
-      headline3: TextStyle(
-        fontFamily: 'MochiyPopOne',
-        fontSize: 16,
-        color: Color(_prymaryColor),
-      ),
-      headline5: TextStyle(
-          fontFamily: 'MochiyPopOne',
-          fontWeight: FontWeight.bold,
-          color: Color(_prymaryColor),
-          fontSize: 25.0),
-      headline6: TextStyle(
+      backgroundColor: color.shade500,
+      titleTextStyle: const TextStyle(
         fontFamily: 'MochiyPopOne',
         fontSize: 18,
-        color: Color(_prymaryColor),
+        fontWeight: FontWeight.bold,
       ),
-      bodyText1: TextStyle(
+    ),
+    progressIndicatorTheme: ProgressIndicatorThemeData(color: color.shade600),
+    textTheme: TextTheme(
+      subtitle2: TextStyle(
+        color: color.shade800,
+      ),
+      subtitle1: TextStyle(
         fontFamily: 'MochiyPopOne',
-        fontSize: 150,
-        color: Color(_prymaryColor),
+        fontSize: 14,
+        color: color.shade600,
+        fontWeight: FontWeight.normal,
       ),
       button: TextStyle(
-        color: Color(_whiteColor),
+        color: color.shade700,
         fontSize: 14,
         fontWeight: FontWeight.bold,
       ),
     ),
     dialogTheme: DialogTheme(
-        backgroundColor: color.shade100,
-        titleTextStyle: theme.textTheme.headline3,
-        contentTextStyle: theme.textTheme.headline3?.copyWith(fontSize: 14)),
+      backgroundColor: color.shade100,
+      titleTextStyle: TextStyle(
+        fontFamily: 'MochiyPopOne',
+        fontSize: 16,
+        color: color.shade600,
+      ),
+    ),
     textButtonTheme: TextButtonThemeData(
-        style: TextButton.styleFrom(
-            backgroundColor: color.shade600,
-            textStyle: theme.textTheme.button)),
+      style: TextButton.styleFrom(
+        backgroundColor: color.shade600,
+      ),
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+        labelStyle: TextStyle(
+            fontFamily: 'MochiyPopOne', fontSize: 16, color: color.shade600)),
   );
 }
