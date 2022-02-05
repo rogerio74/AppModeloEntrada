@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:modelo_app/screens/gravacao_screen.dart';
 
@@ -25,13 +24,9 @@ class WidgetAudio extends StatefulWidget {
 class _WidgetAudioState extends State<WidgetAudio> {
   Icon lockIcon = const Icon(
     Icons.lock_open_outlined,
-    size: 30,
-    color: Color(0xFF160bac),
   );
   Icon unlockIcon = const Icon(
     Icons.lock_outline,
-    size: 30,
-    color: Color(0xFF160bac),
   );
 
   @override
@@ -60,11 +55,10 @@ class _WidgetAudioState extends State<WidgetAudio> {
           child: Center(
               child: Text(
             widget.vogal.toUpperCase(),
-            style: const TextStyle(
-                fontFamily: 'MochiyPopOne',
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF0f0882),
-                fontSize: 25.0),
+            style: Theme.of(context)
+                .textTheme
+                .subtitle1
+                ?.copyWith(fontSize: 25, fontWeight: FontWeight.bold),
           )),
         ),
         Positioned(

@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:modelo_app/components/widget_audios.dart';
 import 'package:modelo_app/models/vogais_map.dart';
@@ -22,20 +21,15 @@ class AudiosScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           'GRAVAR',
-          style: TextStyle(
-              fontFamily: 'MochiyPopOne',
-              fontWeight: FontWeight.bold,
-              color: Colors.white),
         ),
-        backgroundColor: const Color(0xFF160bac),
       ),
       body: Container(
         padding: const EdgeInsets.all(10.0),
-        decoration: const BoxDecoration(
-            gradient: LinearGradient(
-                colors: [Color(0xFF0f0882), Color(0xFF00d4ff)],
-                begin: Alignment.topCenter,
-                end: AlignmentDirectional.bottomCenter)),
+        decoration: BoxDecoration(
+            gradient: LinearGradient(colors: [
+          Theme.of(context).primaryColor,
+          const Color(0xFF00d4ff)
+        ], begin: Alignment.topCenter, end: AlignmentDirectional.bottomCenter)),
         child: Consumer<Vogais>(
           builder: (context, vogais, child) {
             List vogaisList = vogais.getVogaisList(numeroArquivos);
