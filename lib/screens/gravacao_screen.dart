@@ -41,18 +41,22 @@ class _GravacaoScreenState extends State<GravacaoScreen> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text(
-            'Record',
-            style: TextStyle(fontFamily: 'MochiyPopOne'),
+          centerTitle: true,
+          title: Text(
+            'RECORD',
+            style: Theme.of(context).appBarTheme.titleTextStyle,
           ),
-          backgroundColor: const Color(0xFF160bac),
+          backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         ),
         body: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
               gradient: LinearGradient(
-                  colors: [Color(0xFF0f0882), Color(0xFF00d4ff)],
+                  colors: [
+                Theme.of(context).primaryColor,
+                const Color(0xFF00d4ff)
+              ],
                   begin: Alignment.topCenter,
                   end: AlignmentDirectional.bottomCenter)),
           child: Center(
@@ -67,31 +71,31 @@ class _GravacaoScreenState extends State<GravacaoScreen> {
                 children: [
                   Text(
                     widget.vogal.toUpperCase(),
-                    style: const TextStyle(
-                        fontFamily: 'MochiyPopOne',
-                        fontSize: 150,
-                        color: Color(0xFF0f0882)),
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle1
+                        ?.copyWith(fontSize: 105),
                   ),
                   widget.apraxico
                       ? Text(
                           'Sustente a vogal "${widget.vogal.toUpperCase()}"\n por 5 segundos, uma vez',
                           textAlign: TextAlign.center,
-                          style: const TextStyle(
-                              fontFamily: 'MochiyPopOne',
-                              fontSize: 18,
-                              color: Color(0xFF0f0882)),
+                          style: Theme.of(context)
+                              .textTheme
+                              .subtitle1
+                              ?.copyWith(fontSize: 18),
                         )
                       : Text(
                           'Sustente a vogal "${widget.vogal.toUpperCase()}"\n por 4 segundos, três vezes',
                           textAlign: TextAlign.center,
-                          style: const TextStyle(
-                              fontFamily: 'MochiyPopOne',
-                              fontSize: 18,
-                              color: Color(0xFF0f0882)),
+                          style: Theme.of(context)
+                              .textTheme
+                              .subtitle1
+                              ?.copyWith(fontSize: 18),
                         ),
                   Container(
                     decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.secondary,
+                        color: Theme.of(context).appBarTheme.backgroundColor,
                         shape: BoxShape.circle),
                     child: IconButton(
                       onPressed: () async {

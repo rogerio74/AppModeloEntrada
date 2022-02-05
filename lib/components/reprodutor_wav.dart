@@ -104,9 +104,7 @@ class _ReprodutorWavState extends State<ReprodutorWav> {
     return AlertDialog(
       content: const Text(
         "O ÁUDIO FOI GRAVADO SEM INTERFERÊNCIAS?",
-        style: TextStyle(color: Colors.white, fontFamily: 'MochiyPopOne'),
       ),
-      backgroundColor: Theme.of(context).colorScheme.secondary,
       elevation: 5.0,
       actions: [
         _sending
@@ -116,16 +114,14 @@ class _ReprodutorWavState extends State<ReprodutorWav> {
                   SizedBox(
                     height: 25,
                     width: 25,
-                    child: CircularProgressIndicator(
-                      color: Colors.white,
-                    ),
+                    child: CircularProgressIndicator(),
                   ),
                 ],
               )
             : Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  TextButton(
+                  ElevatedButton(
                     onPressed: () {
                       // _apagarArquivo();
                       widget.audioPlayer.stop();
@@ -133,18 +129,17 @@ class _ReprodutorWavState extends State<ReprodutorWav> {
                     },
                     child: const Text(
                       "Não",
-                      style: TextStyle(
-                          color: Colors.white, fontFamily: 'MochiyPopOne'),
                     ),
                   ),
-                  TextButton(
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  ElevatedButton(
                     onPressed: () {
                       _saveData();
                     },
                     child: const Text(
                       "Sim",
-                      style: TextStyle(
-                          color: Colors.white, fontFamily: 'MochiyPopOne'),
                     ),
                   ),
                 ],
