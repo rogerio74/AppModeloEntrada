@@ -16,7 +16,7 @@ class Formulario extends StatefulWidget {
 
 class _FormularioState extends State<Formulario> {
   bool _processing = false;
-  bool _apraxico = false;
+  bool _apraxico = true;
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _nomeController = TextEditingController();
@@ -93,9 +93,12 @@ class _FormularioState extends State<Formulario> {
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: Container(
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
               gradient: LinearGradient(
-                  colors: [Color(0xFF0f0882), Color(0xFF00d4ff)],
+                  colors: [
+                Theme.of(context).primaryColor,
+                const Color(0xFF00d4ff)
+              ],
                   begin: Alignment.topCenter,
                   end: AlignmentDirectional.bottomCenter)),
           child: Center(
@@ -114,18 +117,17 @@ class _FormularioState extends State<Formulario> {
                       ),
                       child: Column(
                         children: [
-                          const Text(
-                            'CADASTRE-SE',
-                            style: TextStyle(
-                                fontFamily: 'MochiyPopOne',
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xFF0f0882)),
-                          ),
+                          Text('CADASTRE-SE',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .subtitle1
+                                  ?.copyWith(fontWeight: FontWeight.bold)),
                           Form(
                             key: _formKey,
                             child: Column(
                               children: [
                                 TextFormField(
+                                  style: Theme.of(context).textTheme.subtitle2,
                                   controller: _emailController,
                                   validator: (email) => _validateEmail(email),
                                   onSaved: (email) {
@@ -134,13 +136,10 @@ class _FormularioState extends State<Formulario> {
                                     });
                                   },
                                   decoration: const InputDecoration(
-                                      labelText: 'E-mail',
-                                      labelStyle: TextStyle(
-                                          fontFamily: 'MochiyPopOne',
-                                          fontSize: 16,
-                                          color: Color(0xFF0f0882))),
+                                      labelText: 'E-mail'),
                                 ),
                                 TextFormField(
+                                  style: Theme.of(context).textTheme.subtitle2,
                                   controller: _nomeController,
                                   validator: (nome) {
                                     if (nome!.isEmpty) {
@@ -154,24 +153,17 @@ class _FormularioState extends State<Formulario> {
                                       _nomeController.text = nome!;
                                     });
                                   },
-                                  decoration: const InputDecoration(
-                                      labelText: 'Nome',
-                                      labelStyle: TextStyle(
-                                          fontFamily: 'MochiyPopOne',
-                                          fontSize: 16,
-                                          color: Color(0xFF0f0882))),
+                                  decoration:
+                                      const InputDecoration(labelText: 'Nome'),
                                 ),
                                 TextFormField(
+                                  style: Theme.of(context).textTheme.subtitle2,
                                   controller: _idadeController,
                                   keyboardType:
                                       const TextInputType.numberWithOptions(
                                           decimal: true),
-                                  decoration: const InputDecoration(
-                                      labelText: 'Idade',
-                                      labelStyle: TextStyle(
-                                          fontFamily: 'MochiyPopOne',
-                                          fontSize: 16,
-                                          color: Color(0xFF0f0882))),
+                                  decoration:
+                                      const InputDecoration(labelText: 'Idade'),
                                   validator: (idade) {
                                     if (idade!.isEmpty || idade.contains(' ')) {
                                       return "Preencha com uma idade válida";
@@ -184,19 +176,17 @@ class _FormularioState extends State<Formulario> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    const Text(
-                                      'Sexo:',
-                                      style: TextStyle(
-                                          fontFamily: 'MochiyPopOne',
-                                          fontSize: 16,
-                                          color: Color(0xFF0f0882)),
-                                    ),
+                                    Text('Sexo:',
+                                        style: Theme.of(context)
+                                            .inputDecorationTheme
+                                            .labelStyle),
                                     DropdownButton(
                                       iconSize: 32,
                                       hint: Text(
                                         _sexoController.text,
-                                        style: const TextStyle(
-                                            color: Color(0xFF0f0882)),
+                                        style: TextStyle(
+                                            color:
+                                                Theme.of(context).primaryColor),
                                       ),
                                       items: ['Feminino', 'Masculino']
                                           .map((String sexo) {
@@ -204,8 +194,9 @@ class _FormularioState extends State<Formulario> {
                                           value: sexo,
                                           child: Text(
                                             sexo,
-                                            style: const TextStyle(
-                                                color: Color(0xFF0f0882)),
+                                            style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .primaryColor),
                                           ),
                                         );
                                       }).toList(),
@@ -220,13 +211,9 @@ class _FormularioState extends State<Formulario> {
                                 ),
                                 SwitchListTile(
                                   title: const Text(
-                                    'Possui apraxia',
-                                    style: TextStyle(
-                                        fontFamily: 'MochiyPopOne',
-                                        // fontSize: 16,
-                                        color: Color(0xFF0f0882)),
+                                    'Falante fluente',
                                   ),
-                                  activeColor: const Color(0xFF0f0882),
+                                  activeColor: Theme.of(context).primaryColor,
                                   value: _apraxico,
                                   onChanged: (isApraxico) {
                                     setState(() {
@@ -238,9 +225,7 @@ class _FormularioState extends State<Formulario> {
                                     ? const SizedBox(
                                         height: 30,
                                         width: 30,
-                                        child: CircularProgressIndicator(
-                                          color: Color(0xFF0f0882),
-                                        ),
+                                        child: CircularProgressIndicator(),
                                       )
                                     : Container(
                                         margin: const EdgeInsets.only(top: 10),
@@ -360,9 +345,6 @@ class _FormularioState extends State<Formulario> {
                                             }
                                           },
                                           child: const Text('GRAVAR ÁUDIOS'),
-                                          style: ElevatedButton.styleFrom(
-                                              primary: Theme.of(context)
-                                                  .primaryColor),
                                         ),
                                       ),
                               ],

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
-const contentStyle = TextStyle(
-    // fontSize: 10,
-    );
-const titleStyle = TextStyle(fontWeight: FontWeight.bold);
+const contentStyle = TextStyle(fontSize: 12, fontWeight: FontWeight.normal);
+const titleStyle = TextStyle(fontSize: 12, fontWeight: FontWeight.bold);
 
 List<Widget> termos = const [
   Text(
