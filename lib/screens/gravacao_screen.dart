@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:modelo_app/components/recorder_wav.dart';
 import 'package:modelo_app/components/reprodutor_wav.dart';
@@ -78,7 +77,7 @@ class _GravacaoScreenState extends State<GravacaoScreen> {
                   ),
                   widget.apraxico
                       ? Text(
-                          'Sustente a vogal "${widget.vogal.toUpperCase()}"\n por 5 segundos, uma vez',
+                          'Tente sustentar a vogal "${widget.vogal.toUpperCase()}"\n por até 4 segundos',
                           textAlign: TextAlign.center,
                           style: Theme.of(context)
                               .textTheme
@@ -86,7 +85,7 @@ class _GravacaoScreenState extends State<GravacaoScreen> {
                               ?.copyWith(fontSize: 18),
                         )
                       : Text(
-                          'Sustente a vogal "${widget.vogal.toUpperCase()}"\n por 4 segundos, três vezes',
+                          'Tente sustentar a vogal "${widget.vogal.toUpperCase()}"\n por até 2 segundos',
                           textAlign: TextAlign.center,
                           style: Theme.of(context)
                               .textTheme
