@@ -4,14 +4,13 @@ class UpdateAlertDialog extends StatelessWidget {
   final String nome;
   final String idade;
   final String sexo;
-  final Widget routePage;
+
   final bool fluente;
   UpdateAlertDialog({
     Key? key,
     required this.nome,
     required this.idade,
     required this.sexo,
-    required this.routePage,
     required this.fluente,
   }) : super(key: key);
 
@@ -90,12 +89,7 @@ class UpdateAlertDialog extends StatelessWidget {
                                 backgroundColor: const Color(0xFF0f0882),
                               ),
                               onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          routePage),
-                                );
+                                Navigator.pop(context, true);
                               },
                               child: const Text(
                                 'SIM',
@@ -106,7 +100,7 @@ class UpdateAlertDialog extends StatelessWidget {
                       ],
                     ),
                   );
-                });
+                }).then((result) => Navigator.pop(context, result));
           },
           child: const Text(
             'PROSSEGUIR COM ESTE E-MAIL',
