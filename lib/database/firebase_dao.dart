@@ -23,6 +23,22 @@ class FirebaseDao extends ChangeNotifier {
     return valorPasta;
   }
 
+  Future<void> deleteUserFiles(String folder) async {
+    debugPrint('Entrou Aqui');
+    List<String> listFullPaths = [];
+    ListResult listResults =
+        await _firebaseStorageRef.child('folders').child(folder).listAll();
+    List<Reference> listReferences = listResults.items;
+    for (Reference reference in listReferences) {
+      listFullPaths.add(reference.fullPath);
+    }
+
+    for (String element in listFullPaths) {
+      await _firebaseStorageRef.child(element).delete();
+    }
+    print('Apagão Finalizado');
+  }
+
   Future<int> incrementNumero(String child, int numero) async {
     int ultimoNumero = await _getNumero(child);
 
@@ -56,8 +72,20 @@ class FirebaseDao extends ChangeNotifier {
     await _realtimeDatabaseRef.child('voluntarios').push().set(userData);
   }
 
-  Future<void> updateUserData(String id, Map<String, dynamic> newData) async {
-    await _realtimeDatabaseRef.child('voluntarios').child(id).update(newData);
+  Future<String> updateUserData(
+      String id, Map<String, dynamic> newData, String folderName) async {
+    String newSexo = newData['sexo'];
+
+    if (folderName[4] != newSexo) {
+      await deleteUserFiles(folderName);
+      String newFolderName = folderName.replaceRange(4, 5, newSexo);
+      newData.update('numPasta', (value) => newFolderName);
+      await _realtimeDatabaseRef.child('voluntarios').child(id).update(newData);
+      return newFolderName;
+    } else {
+      await _realtimeDatabaseRef.child('voluntarios').child(id).update(newData);
+      return folderName;
+    }
   }
 
   Future<void> uploadWavAndTranscricao({
