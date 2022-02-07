@@ -85,7 +85,7 @@ class _GravacaoScreenState extends State<GravacaoScreen> {
                               ?.copyWith(fontSize: 18),
                         )
                       : Text(
-                          'Tente sustentar a vogal "${widget.vogal.toUpperCase()}"\n por até 2 segundos',
+                          'Tente sustentar a vogal "${widget.vogal.toUpperCase()}"\n pelo tempo que você conseguir de forma confortável',
                           textAlign: TextAlign.center,
                           style: Theme.of(context)
                               .textTheme
