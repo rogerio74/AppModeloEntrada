@@ -6,7 +6,7 @@ class WidgetAudio extends StatefulWidget {
   final String folderName;
   final bool isButtonDisabled;
   final String numeroArquivo;
-  final bool apraxico;
+  final bool fluente;
 
   const WidgetAudio({
     Key? key,
@@ -14,7 +14,7 @@ class WidgetAudio extends StatefulWidget {
     required this.folderName,
     required this.isButtonDisabled,
     required this.numeroArquivo,
-    required this.apraxico,
+    required this.fluente,
   }) : super(key: key);
 
   @override
@@ -42,7 +42,7 @@ class _WidgetAudioState extends State<WidgetAudio> {
                           numeroArquivo: widget.numeroArquivo,
                           vogal: widget.vogal,
                           folderName: widget.folderName,
-                          apraxico: widget.apraxico,
+                          fluente: widget.fluente,
                         )));
       },
       child: Stack(children: [

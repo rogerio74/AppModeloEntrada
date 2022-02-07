@@ -6,14 +6,14 @@ class GravacaoScreen extends StatefulWidget {
   final String vogal;
   final String folderName;
   final String numeroArquivo;
-  final bool apraxico;
+  final bool fluente;
 
   const GravacaoScreen({
     Key? key,
     required this.vogal,
     required this.folderName,
     required this.numeroArquivo,
-    required this.apraxico,
+    required this.fluente,
   }) : super(key: key);
 
   @override
@@ -75,7 +75,7 @@ class _GravacaoScreenState extends State<GravacaoScreen> {
                         .subtitle1
                         ?.copyWith(fontSize: 105),
                   ),
-                  widget.apraxico
+                  widget.fluente
                       ? Text(
                           'Tente sustentar a vogal "${widget.vogal.toUpperCase()}"\n por até 4 segundos',
                           textAlign: TextAlign.center,

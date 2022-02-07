@@ -6,13 +6,13 @@ import 'package:provider/provider.dart';
 class AudiosScreen extends StatelessWidget {
   final String folderName;
   final int numeroArquivos;
-  final bool apraxico;
+  final bool fluente;
 
   const AudiosScreen({
     Key? key,
     required this.folderName,
     required this.numeroArquivos,
-    required this.apraxico,
+    required this.fluente,
   }) : super(key: key);
 
   @override
@@ -45,7 +45,7 @@ class AudiosScreen extends StatelessWidget {
                     folderName: folderName,
                     isButtonDisabled: vogaisList[index][1],
                     numeroArquivo: numeroArquivoConvertido,
-                    apraxico: apraxico,
+                    fluente: fluente,
                   );
                 });
           },
