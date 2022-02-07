@@ -16,7 +16,7 @@ class Formulario extends StatefulWidget {
 
 class _FormularioState extends State<Formulario> {
   bool _processing = false;
-  bool _apraxico = true;
+  bool _fluente = true;
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _nomeController = TextEditingController();
@@ -66,7 +66,7 @@ class _FormularioState extends State<Formulario> {
     int _numArquivos = _userData['numArquivos'];
     String _numPasta = _userData['numPasta'];
     String _email = _userData['email'];
-    bool _apraxico = _userData['apraxico'];
+    bool _fluente = _userData['fluente'];
 
     return showDialog(
       context: context,
@@ -75,11 +75,11 @@ class _FormularioState extends State<Formulario> {
           nome: _nome,
           idade: _idade,
           sexo: _sexo,
-          apraxico: _apraxico,
+          fluente: _fluente,
           routePage: AudiosScreen(
             folderName: _numPasta,
             numeroArquivos: _numArquivos,
-            apraxico: _apraxico,
+            fluente: _fluente,
           ),
         );
       },
@@ -210,14 +210,22 @@ class _FormularioState extends State<Formulario> {
                                   ],
                                 ),
                                 SwitchListTile(
+                                  subtitle: Text(
+                                    '(${_fluente ? "Sou falante fluente" : "Preciso treinar minha fala"})',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .subtitle1
+                                        ?.copyWith(
+                                            fontSize: 10, color: Colors.red),
+                                  ),
                                   title: const Text(
                                     'Falante fluente',
                                   ),
                                   activeColor: Theme.of(context).primaryColor,
-                                  value: _apraxico,
-                                  onChanged: (isApraxico) {
+                                  value: _fluente,
+                                  onChanged: (isfluente) {
                                     setState(() {
-                                      _apraxico = isApraxico;
+                                      _fluente = isfluente;
                                     });
                                   },
                                 ),
@@ -305,7 +313,7 @@ class _FormularioState extends State<Formulario> {
                                                               _nomeDaPasta,
                                                           numArquivos:
                                                               _numeroArquivos,
-                                                          apraxico: _apraxico);
+                                                          fluente: _fluente);
 
                                                       await Navigator.push(
                                                         context,
@@ -317,7 +325,7 @@ class _FormularioState extends State<Formulario> {
                                                                 _nomeDaPasta,
                                                             numeroArquivos:
                                                                 _numeroArquivos,
-                                                            apraxico: _apraxico,
+                                                            fluente: _fluente,
                                                           ),
                                                         ),
                                                       );
