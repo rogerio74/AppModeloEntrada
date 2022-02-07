@@ -66,8 +66,17 @@ class _FormularioState extends State<Formulario> {
     int _numArquivos = _userData['numArquivos'];
     String _numPasta = _userData['numPasta'];
     String _email = _userData['email'];
-    bool _fluente = _userData['fluente'];
+    bool _fluenteOld = _userData['fluente'];
 
+    Map<String, dynamic> newData = {
+      'nome': _nomeController.text,
+      'idade': _idadeController.text,
+      'sexo': _sexoController.text,
+      'fluente': _fluente,
+      'numArquivos': _numArquivos,
+      'numPasta': _numPasta,
+      'email': _email
+    };
     return showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -75,15 +84,29 @@ class _FormularioState extends State<Formulario> {
           nome: _nome,
           idade: _idade,
           sexo: _sexo,
-          fluente: _fluente,
-          routePage: AudiosScreen(
-            folderName: _numPasta,
-            numeroArquivos: _numArquivos,
-            fluente: _fluente,
-          ),
+          fluente: _fluenteOld,
         );
       },
-    );
+    ).then((result) async {
+      if (result == true) {
+        String _folderName =
+            await Provider.of<FirebaseDao>(context, listen: false)
+                .updateUserData(idUser, newData, _numPasta);
+        setState(() {
+          _processing = false;
+        });
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => AudiosScreen(
+              folderName: _folderName,
+              numeroArquivos: _numArquivos,
+              fluente: _fluente,
+            ),
+          ),
+        );
+      }
+    });
   }
 
   @override
@@ -219,7 +242,9 @@ class _FormularioState extends State<Formulario> {
                                             fontSize: 10, color: Colors.red),
                                   ),
                                   title: Text(
-                                    '${_fluente ? "Falante fluente" : "Falante não fluente"}',
+                                    _fluente
+                                        ? "Falante fluente"
+                                        : "Falante não fluente",
                                   ),
                                   activeColor: Theme.of(context).primaryColor,
                                   value: _fluente,
