@@ -218,8 +218,8 @@ class _FormularioState extends State<Formulario> {
                                         ?.copyWith(
                                             fontSize: 10, color: Colors.red),
                                   ),
-                                  title: const Text(
-                                    'Falante fluente',
+                                  title: Text(
+                                    '${_fluente ? "Falante fluente" : "Falante não fluente"}',
                                   ),
                                   activeColor: Theme.of(context).primaryColor,
                                   value: _fluente,
