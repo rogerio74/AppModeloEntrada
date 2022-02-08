@@ -44,7 +44,15 @@ dependencies:
   intl:
   firebase_database: ^9.0.5
   provider:
- 
+  flutter_launcher_icons: ^0.9.1
+
+flutter_icons:
+  image_path: "assets/app/icon2.png"
+  ios: true
+  remove_alpha_ios: true
+  android: "launcher_icon"
+  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_foreground: "assets/app/icon1.png"
 
 dev_dependencies:
   flutter_test:
