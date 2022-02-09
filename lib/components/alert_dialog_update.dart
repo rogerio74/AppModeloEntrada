@@ -39,7 +39,7 @@ class UpdateAlertDialog extends StatelessWidget {
               height: 20,
             ),
             Text(
-              'OBS: ao prosseguir com este e-mail, os áudios já gravados serão sobrescritos por novos áudios.',
+              'OBS: ao prosseguir com este e-mail, os dados/áudios já gravados serão sobrescritos por novos dados/audios.',
               textAlign: TextAlign.justify,
               style: Theme.of(context)
                   .textTheme
