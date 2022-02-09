@@ -89,6 +89,7 @@ class _FormularioState extends State<Formulario> {
       },
     ).then((result) async {
       if (result == true) {
+        Provider.of<Vogais>(context, listen: false).getNewMapVogais();
         String _folderName =
             await Provider.of<FirebaseDao>(context, listen: false)
                 .updateUserData(idUser, newData, _numPasta);
