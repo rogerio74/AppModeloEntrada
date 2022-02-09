@@ -75,16 +75,7 @@ class _GravacaoScreenState extends State<GravacaoScreen> {
                         .subtitle1
                         ?.copyWith(fontSize: 105),
                   ),
-                  widget.fluente
-                      ? Text(
-                          'Tente sustentar a vogal "${widget.vogal.toUpperCase()}"\n por até 4 segundos',
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context)
-                              .textTheme
-                              .subtitle1
-                              ?.copyWith(fontSize: 18),
-                        )
-                      : Text(
+                  Text(
                           'Tente sustentar a vogal "${widget.vogal.toUpperCase()}"\n pelo tempo que você conseguir de forma confortável',
                           textAlign: TextAlign.center,
                           style: Theme.of(context)
