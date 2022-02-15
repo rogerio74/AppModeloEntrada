@@ -32,11 +32,18 @@ class ReprodutorWav extends StatefulWidget {
 }
 
 class _ReprodutorWavState extends State<ReprodutorWav> {
-  final firebaseStorage = FirebaseStorage.instance;
   bool _sending = false;
+  bool _playedAudio = false;
 
-  ouvirAudio() async {
-    widget.audioPlayer.play(widget.path, isLocal: true);
+  Future<void> ouvirAudio() async {
+    await widget.audioPlayer.play(widget.path, isLocal: true);
+    setState(() {
+      _playedAudio = true;
+    });
+  }
+
+  Future<void> pararAudio() async {
+    await widget.audioPlayer.stop();
   }
 
   _apagarArquivo() {
@@ -102,13 +109,39 @@ class _ReprodutorWavState extends State<ReprodutorWav> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      content: const Text(
-        "O ÁUDIO FOI GRAVADO SEM INTERFERÊNCIAS?",
+      title: const Text('VERIFICAR QUALIDADE DO ÁUDIO'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Text('Pressione o botão abaixo para avaliar seu áudio:'),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton(
+              onPressed: () async {
+                await ouvirAudio();
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Text(
+                    "Reproduzir Áudio |",
+                  ),
+                  Icon(Icons.play_arrow_rounded),
+                ],
+              ),
+            ),
+          ),
+          const Text(
+            "O áudio foi gravado sem interferências?",
+            textAlign: TextAlign.center,
+          ),
+        ],
       ),
       elevation: 5.0,
       actions: [
         _sending
             ? Row(
+                // mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: const [
                   SizedBox(
@@ -119,27 +152,46 @@ class _ReprodutorWavState extends State<ReprodutorWav> {
                 ],
               )
             : Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ElevatedButton(
-                    onPressed: () {
-                      // _apagarArquivo();
-                      widget.audioPlayer.stop();
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text(
-                      "Não",
+                    onPressed: _playedAudio
+                        ? () {
+                            _saveData();
+                          }
+                        : null,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Text(
+                          "Sim |",
+                        ),
+                        Icon(
+                          Icons.done_rounded,
+                          color: Colors.green,
+                        )
+                      ],
                     ),
                   ),
-                  const SizedBox(
-                    width: 10,
-                  ),
                   ElevatedButton(
-                    onPressed: () {
-                      _saveData();
-                    },
-                    child: const Text(
-                      "Sim",
+                    onPressed: _playedAudio
+                        ? () {
+                            // _apagarArquivo();
+                            widget.audioPlayer.stop();
+                            Navigator.of(context).pop();
+                          }
+                        : null,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Text(
+                          "Não |",
+                        ),
+                        Icon(
+                          Icons.close_rounded,
+                          color: Colors.red,
+                        )
+                      ],
                     ),
                   ),
                 ],

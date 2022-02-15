@@ -76,13 +76,46 @@ class _GravacaoScreenState extends State<GravacaoScreen> {
                         ?.copyWith(fontSize: 105),
                   ),
                   Text(
-                          'Tente sustentar a vogal "${widget.vogal.toUpperCase()}"\n pelo tempo que você conseguir de forma confortável',
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context)
-                              .textTheme
-                              .subtitle1
-                              ?.copyWith(fontSize: 18),
-                        ),
+                    'Tente sustentar a vogal "${widget.vogal.toUpperCase()}"\n pelo tempo que você conseguir de forma confortável',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle1
+                        ?.copyWith(fontSize: 18),
+                  ),
+                  Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            recorder.isRecording
+                                ? 'Pressione o botão'
+                                : 'Pressione o botão',
+                            style: Theme.of(context)
+                                .textTheme
+                                .subtitle1
+                                ?.copyWith(fontSize: 12),
+                          ),
+                          Icon(
+                            recorder.isRecording
+                                ? Icons.stop_rounded
+                                : Icons.mic_outlined,
+                            color: const Color(0xFF00d4ff),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        recorder.isRecording
+                            ? 'para finalizar a captura'
+                            : 'para iniciar a captura',
+                        style: Theme.of(context)
+                            .textTheme
+                            .subtitle1
+                            ?.copyWith(fontSize: 12),
+                      ),
+                    ],
+                  ),
                   Container(
                     decoration: BoxDecoration(
                         color: Theme.of(context).appBarTheme.backgroundColor,
@@ -97,8 +130,7 @@ class _GravacaoScreenState extends State<GravacaoScreen> {
                               numeroArquivo: widget.numeroArquivo,
                               vogal: widget.vogal.toLowerCase(),
                               path: recorder.path!);
-                          reprodutorWav.audioPlayer
-                              .play(reprodutorWav.path, isLocal: true);
+
                           showDialog(
                               context: context,
                               builder: (_) {
@@ -111,10 +143,10 @@ class _GravacaoScreenState extends State<GravacaoScreen> {
                         }
                       },
                       icon: Icon(recorder.isRecording
-                          ? Icons.stop
+                          ? Icons.stop_rounded
                           : Icons.mic_outlined),
                       color: const Color(0xFF00d4ff),
-                      iconSize: 100,
+                      iconSize: 85,
                     ),
                   ),
                 ],

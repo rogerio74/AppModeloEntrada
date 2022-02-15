@@ -21,6 +21,7 @@ class AppModeloEntradaTheme {
     Color color = const Color(_prymaryColor),
   }) {
     return ElevatedButton.styleFrom(
+      elevation: 10,
       primary: color,
     );
   }
