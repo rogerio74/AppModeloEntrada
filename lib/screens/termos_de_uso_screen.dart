@@ -115,13 +115,13 @@ class _TermosScreenState extends State<TermosScreen> {
                                     return SizedBox(
                                       child: AlertDialog(
                                         title: const Text(
-                                          'Confirmar',
+                                          'Confirmar Rejeição',
                                         ),
                                         content: SingleChildScrollView(
                                           child: ListBody(
                                             children: const [
                                               Text(
-                                                'Tem certeza?',
+                                                'Você está rejeitando colaborar com a pesquisa. Tem certeza?',
                                               ),
                                             ],
                                           ),
