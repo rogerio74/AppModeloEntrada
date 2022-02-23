@@ -196,42 +196,46 @@ class _FormularioState extends State<Formulario> {
                                     }
                                   },
                                 ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text('Sexo:',
+                                DropdownButtonFormField(
+                                  iconSize: 32,
+                                  hint: Text(
+                                    _sexoController.text,
+                                    style: TextStyle(
+                                        color: Theme.of(context).primaryColor),
+                                  ),
+                                  items: ['Feminino', 'Masculino']
+                                      .map((String sexo) {
+                                    return DropdownMenuItem<String>(
+                                      value: sexo,
+                                      child: Text(
+                                        sexo,
                                         style: Theme.of(context)
-                                            .inputDecorationTheme
-                                            .labelStyle),
-                                    DropdownButton(
-                                      iconSize: 32,
-                                      hint: Text(
-                                        _sexoController.text,
-                                        style: TextStyle(
-                                            color:
-                                                Theme.of(context).primaryColor),
+                                            .textTheme
+                                            .subtitle2,
                                       ),
-                                      items: ['Feminino', 'Masculino']
-                                          .map((String sexo) {
-                                        return DropdownMenuItem<String>(
-                                          value: sexo,
-                                          child: Text(
-                                            sexo,
-                                            style: TextStyle(
-                                                color: Theme.of(context)
-                                                    .primaryColor),
-                                          ),
-                                        );
-                                      }).toList(),
-                                      onChanged: (sexo) {
-                                        setState(() {
-                                          String _strSexo = sexo.toString();
-                                          _sexoController.text = _strSexo[0];
-                                        });
-                                      },
-                                    ),
-                                  ],
+                                    );
+                                  }).toList(),
+                                  decoration:
+                                      const InputDecoration(labelText: 'Sexo'),
+                                  onChanged: (sexo) {
+                                    setState(() {
+                                      String _strSexo = sexo.toString();
+                                      _sexoController.text = _strSexo[0];
+                                    });
+                                  },
+                                  onSaved: (sexo) {
+                                    setState(() {
+                                      String _strSexo = sexo.toString();
+                                      _sexoController.text = _strSexo[0];
+                                    });
+                                  },
+                                  validator: (sexo) {
+                                    if (sexo == null) {
+                                      return "Preencha com o sexo";
+                                    } else {
+                                      return null;
+                                    }
+                                  },
                                 ),
                                 SwitchListTile(
                                   subtitle: Text(
