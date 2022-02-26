@@ -1,7 +1,9 @@
+import 'dart:io' as io;
 import 'dart:io';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:modelo_app/components/diretorio.dart';
 
 class FirebaseDao extends ChangeNotifier {
   final Reference _firebaseStorageRef = FirebaseStorage.instance.ref();
@@ -105,6 +107,55 @@ class FirebaseDao extends ChangeNotifier {
         .child(fileName + '.txt')
         .putFile(File(transcricaoPath));
   }
+
+  //Código para atualizar transcrição da vogal E
+
+  // Future<void> updateVogalEPart1() async {
+  //   ListResult data = await _firebaseStorageRef.child('folders').listAll();
+  //   List<Reference> subFolders = data.prefixes;
+  //   List foldersAdress = [];
+  //   for (Reference subFolder in subFolders) {
+  //     foldersAdress.add(subFolder.fullPath);
+  //   }
+
+  //   List<String> _selectedFiles = await _updateVogalEPart2(foldersAdress);
+  //   await _updateVogalEfinal(_selectedFiles);
+  // }
+
+  // Future<List<String>> _updateVogalEPart2(List foldersAdress) async {
+  //   List listFilesAdress = [];
+  //   for (String fileAdress in foldersAdress) {
+  //     ListResult files = await _firebaseStorageRef.child(fileAdress).listAll();
+  //     List<Reference> filesReference = files.items;
+  //     List filesAdressInFolder = [];
+  //     for (Reference file in filesReference) {
+  //       filesAdressInFolder.add(file.fullPath);
+  //     }
+  //     listFilesAdress.add(filesAdressInFolder);
+  //   }
+  //   List<String> selectedFiles = _updateVogalEPart3(listFilesAdress);
+  //   return selectedFiles;
+  // }
+
+  // List<String> _updateVogalEPart3(List listFilesAdress) {
+  //   List<String> selectedFiles = [];
+  //   for (List list in listFilesAdress) {
+  //     selectedFiles.add(list[2]);
+  //   }
+  //   return selectedFiles;
+  // }
+
+  // Future<void> _updateVogalEfinal(List listFilesAdress) async {
+  //   String pathTranscricaoWav =
+  //       await Diretorio('/GravacaoApp').getNomeDoArquivo('vogalE.txt');
+  //   io.File transcricao = io.File(pathTranscricaoWav);
+  //   transcricao.writeAsString('é é é');
+  //   for (String fileAdress in listFilesAdress) {
+  //     await _firebaseStorageRef
+  //         .child(fileAdress)
+  //         .putFile(File(pathTranscricaoWav));
+  //   }
+  // }
 
   Future<Map> getUserWithId(String id) async {
     DatabaseEvent event =

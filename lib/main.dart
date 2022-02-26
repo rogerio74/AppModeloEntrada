@@ -31,7 +31,7 @@ Future<void> main() async {
       'lock': true,
       'num': 0,
     },
-    'e': {
+    'é': {
       'lock': true,
       'num': 0,
     },
