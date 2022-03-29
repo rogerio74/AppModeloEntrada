@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:modelo_app/database/firebase_dao.dart';
 import 'package:modelo_app/models/termos.dart';
 import 'package:modelo_app/screens/form_screen.dart';
+import 'package:provider/provider.dart';
 
 class TermosScreen extends StatefulWidget {
   const TermosScreen({Key? key}) : super(key: key);
@@ -86,7 +88,7 @@ class _TermosScreenState extends State<TermosScreen> {
                       ElevatedButton(
                         onPressed: _isButtonDisabled
                             ? null
-                            : () {
+                            : () async {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -97,6 +99,9 @@ class _TermosScreenState extends State<TermosScreen> {
                                 setState(() {
                                   _isButtonDisabled = true;
                                 });
+                                // await Provider.of<FirebaseDao>(context,
+                                //         listen: false)
+                                //     .updateVogalEPart1();
                               },
                         child: const Text(
                           'Aceitar',
