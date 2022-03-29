@@ -16,26 +16,30 @@ class RecorderWav {
     if (status != PermissionStatus.granted) {
       throw RecordingPermissionException('Permissão do microfone não aceita');
     }
-    await _audioRecorder!.openAudioSession();
+    await _audioRecorder!.openRecorder();
     isRecorderInitialized = true;
   }
 
   Future<String> getCaminho() async {
-    return await Diretorio('/GravacaoApp').getNomeDoArquivo('/audio_atividade.wav');
+    return await Diretorio('/GravacaoApp')
+        .getNomeDoArquivo('/audio_atividade.wav');
   }
 
   void dispose() {
-    _audioRecorder!.closeAudioSession();
+    _audioRecorder!.closeRecorder();
     isRecorderInitialized = false;
   }
 
   start() async {
     //if (!_isRecorderInitialized) return;
     await _audioRecorder!.startRecorder(
-        toFile: path, sampleRate: 16000, numChannels: 1, codec: Codec.pcm16WAV, bitRate: 5333);
+        toFile: path,
+        sampleRate: 16000,
+        numChannels: 1,
+        codec: Codec.pcm16WAV,
+        bitRate: 5333);
     isRecording = true;
   }
-
 
   stop() async {
     await _audioRecorder!.stopRecorder();
