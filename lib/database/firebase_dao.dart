@@ -224,10 +224,10 @@ class FirebaseDao extends ChangeNotifier {
       foldersAdress.add(subFolder.fullPath);
     }
 
-    await getFiles(foldersAdress);
+    await _getFiles(foldersAdress);
   }
 
-  Future<void> getFiles(List foldersAdress) async {
+  Future<void> _getFiles(List foldersAdress) async {
     List listFilesAdress = [];
     for (String fileAdress in foldersAdress) {
       ListResult files = await _firebaseStorageRef.child(fileAdress).listAll();

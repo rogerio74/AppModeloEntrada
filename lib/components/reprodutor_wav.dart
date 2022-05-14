@@ -58,6 +58,7 @@ class _ReprodutorWavState extends State<ReprodutorWav> {
     await checkConnection().then((internet) async {
       if (internet) {
         String nameWav = 'APX_${widget.numeroArquivo}';
+        await pararAudio();
 
         String pathTranscricaoWav =
             await Diretorio('/GravacaoApp').getNomeDoArquivo('/$nameWav.txt');

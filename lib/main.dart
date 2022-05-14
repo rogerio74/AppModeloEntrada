@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:modelo_app/database/dados_bd.dart';
 import 'package:modelo_app/database/firebase_dao.dart';
 import 'package:modelo_app/models/vogais_map.dart';
 import 'package:modelo_app/screens/termos_de_uso_screen.dart';
@@ -51,6 +52,9 @@ Future<void> main() async {
         ),
         ChangeNotifierProvider(
           create: (context) => FirebaseDao(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => DadosBD(),
         ),
       ],
       child: MyApp(),
