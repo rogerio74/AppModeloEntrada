@@ -7,6 +7,36 @@ import 'package:modelo_app/models/vogais_map.dart';
 import 'package:modelo_app/screens/audios_screens.dart';
 import 'package:provider/provider.dart';
 
+const List<String> estados = [
+  'AC',
+  'AL',
+  'AP',
+  'AM',
+  'BA',
+  'CE',
+  'ES',
+  'GO',
+  'MA',
+  'MT',
+  'MS',
+  'MG',
+  'PA',
+  'PB',
+  'PR',
+  'PE',
+  'PI',
+  'RJ',
+  'RN',
+  'RS',
+  'RO',
+  'RR',
+  'SC',
+  'SP',
+  'SE',
+  'TO',
+  'DF'
+];
+
 class Formulario extends StatefulWidget {
   const Formulario({Key? key}) : super(key: key);
 
@@ -22,6 +52,7 @@ class _FormularioState extends State<Formulario> {
   final TextEditingController _nomeController = TextEditingController();
   final TextEditingController _idadeController = TextEditingController();
   final TextEditingController _sexoController = TextEditingController();
+  final TextEditingController _estadoController = TextEditingController();
 
   String? _validateEmail(String? value) {
     String pattern =
@@ -67,6 +98,7 @@ class _FormularioState extends State<Formulario> {
     String _numPasta = _userData['numPasta'];
     String _email = _userData['email'];
     bool _fluenteOld = _userData['fluente'];
+    String _estado = _userData['estado'];
 
     Map<String, dynamic> newData = {
       'nome': _nomeController.text,
@@ -75,16 +107,19 @@ class _FormularioState extends State<Formulario> {
       'fluente': _fluente,
       'numArquivos': _numArquivos,
       'numPasta': _numPasta,
-      'email': _email
+      'email': _email,
+      'estado': _estadoController.text,
     };
     return showDialog(
       context: context,
       builder: (BuildContext context) {
+        print('Estado: ${_estadoController.text}');
         return UpdateAlertDialog(
           nome: _nome,
           idade: _idade,
           sexo: _sexo,
           fluente: _fluenteOld,
+          estado: _estado,
         );
       },
     ).then((result) async {
@@ -126,14 +161,18 @@ class _FormularioState extends State<Formulario> {
                   begin: Alignment.topCenter,
                   end: AlignmentDirectional.bottomCenter)),
           child: Center(
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height * 0.6,
-              child: Column(
-                children: [
-                  Expanded(
-                    child: Container(
+            child: SingleChildScrollView(
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height * 0.8,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Container(
                       padding: const EdgeInsets.all(10),
                       width: MediaQuery.of(context).size.width * 0.8,
+                      //height: MediaQuery.of(context).size.height * 0.8,
                       decoration: BoxDecoration(
                         color: Colors.grey.shade200,
                         borderRadius:
@@ -171,6 +210,7 @@ class _FormularioState extends State<Formulario> {
                                     } else if (nome.isNotEmpty) {
                                       return null;
                                     }
+                                    return null;
                                   },
                                   onSaved: (nome) {
                                     setState(() {
@@ -194,6 +234,7 @@ class _FormularioState extends State<Formulario> {
                                     } else if (idade.isNotEmpty) {
                                       return null;
                                     }
+                                    return null;
                                   },
                                 ),
                                 DropdownButtonFormField(
@@ -232,6 +273,48 @@ class _FormularioState extends State<Formulario> {
                                   validator: (sexo) {
                                     if (sexo == null) {
                                       return "Preencha com o sexo";
+                                    } else {
+                                      return null;
+                                    }
+                                  },
+                                ),
+                                DropdownButtonFormField(
+                                  iconSize: 32,
+                                  hint: Text(
+                                    _estadoController.text,
+                                    style: TextStyle(
+                                        color: Theme.of(context).primaryColor),
+                                  ),
+                                  items: estados.map((String estado) {
+                                    return DropdownMenuItem<String>(
+                                      value: estado,
+                                      child: Text(
+                                        estado,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .subtitle2,
+                                      ),
+                                    );
+                                  }).toList(),
+                                  decoration: const InputDecoration(
+                                      labelText: 'Estado'),
+                                  onChanged: (estado) {
+                                    setState(() {
+                                      _estadoController.text =
+                                          estado.toString();
+                                      print(_estadoController.text);
+                                    });
+                                  },
+                                  onSaved: (estado) {
+                                    setState(() {
+                                      _estadoController.text =
+                                          estado.toString();
+                                      print(_estadoController.text);
+                                    });
+                                  },
+                                  validator: (estado) {
+                                    if (estado == null) {
+                                      return "Preencha com o estado onde você reside";
                                     } else {
                                       return null;
                                     }
@@ -343,7 +426,10 @@ class _FormularioState extends State<Formulario> {
                                                               _nomeDaPasta,
                                                           numArquivos:
                                                               _numeroArquivos,
-                                                          fluente: _fluente);
+                                                          fluente: _fluente,
+                                                          estado:
+                                                              _estadoController
+                                                                  .text);
 
                                                       await Navigator.push(
                                                         context,
@@ -391,8 +477,8 @@ class _FormularioState extends State<Formulario> {
                         ],
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

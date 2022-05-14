@@ -4,6 +4,7 @@ class UpdateAlertDialog extends StatelessWidget {
   final String nome;
   final String idade;
   final String sexo;
+  final String? estado;
 
   final bool fluente;
   UpdateAlertDialog({
@@ -12,6 +13,7 @@ class UpdateAlertDialog extends StatelessWidget {
     required this.idade,
     required this.sexo,
     required this.fluente,
+    this.estado,
   }) : super(key: key);
 
   @override
@@ -33,7 +35,7 @@ class UpdateAlertDialog extends StatelessWidget {
               height: 5,
             ),
             Text(
-              'Dados:\n-Nome: $nome\n-Idade: $idade\n-Sexo: $sexo\n-fluente: $isfluente',
+              'Dados:\n-Nome: $nome\n-Idade: $idade\n-Sexo: $sexo\n-fluente: $isfluente\n-Estado: $estado',
             ),
             const SizedBox(
               height: 20,

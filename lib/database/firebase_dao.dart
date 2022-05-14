@@ -63,6 +63,7 @@ class FirebaseDao extends ChangeNotifier {
     required String numPasta,
     required int numArquivos,
     required bool fluente,
+    required String estado,
   }) async {
     Map userData = {
       'email': email,
@@ -72,6 +73,7 @@ class FirebaseDao extends ChangeNotifier {
       'numPasta': numPasta,
       'numArquivos': numArquivos,
       'fluente': fluente,
+      'estado': estado,
     };
     await _realtimeDatabaseRef.child('voluntarios').push().set(userData);
   }
