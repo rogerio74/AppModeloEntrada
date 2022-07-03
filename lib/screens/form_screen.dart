@@ -148,36 +148,27 @@ class _FormularioState extends State<Formulario> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SizedBox(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: Container(
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  colors: [
-                Theme.of(context).primaryColor,
-                const Color(0xFF00d4ff)
-              ],
-                  begin: Alignment.topCenter,
-                  end: AlignmentDirectional.bottomCenter)),
-          child: Center(
-            child: SingleChildScrollView(
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height * 0.8,
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      //height: MediaQuery.of(context).size.height * 0.8,
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade200,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(30.0)),
-                      ),
+      body: Container(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(colors: [
+          Theme.of(context).primaryColor,
+          const Color(0xFF00d4ff)
+        ], begin: Alignment.topCenter, end: AlignmentDirectional.bottomCenter)),
+        child: Center(
+          child: Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  height: MediaQuery.of(context).size.height * 0.55,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade200,
+                    borderRadius: const BorderRadius.all(Radius.circular(30.0)),
+                  ),
+                  child: SingleChildScrollView(
+                    child: Center(
                       child: Column(
                         children: [
                           Text('CADASTRE-SE',
@@ -189,6 +180,28 @@ class _FormularioState extends State<Formulario> {
                             key: _formKey,
                             child: Column(
                               children: [
+                                SwitchListTile(
+                                  subtitle: Text(
+                                    '(${_fluente ? "Sou falante fluente" : "Preciso treinar minha fala"})',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .subtitle1
+                                        ?.copyWith(
+                                            fontSize: 10, color: Colors.red),
+                                  ),
+                                  title: Text(
+                                    _fluente
+                                        ? "Falante fluente"
+                                        : "Falante não fluente",
+                                  ),
+                                  activeColor: Theme.of(context).primaryColor,
+                                  value: _fluente,
+                                  onChanged: (isfluente) {
+                                    setState(() {
+                                      _fluente = isfluente;
+                                    });
+                                  },
+                                ),
                                 TextFormField(
                                   style: Theme.of(context).textTheme.subtitle2,
                                   controller: _emailController,
@@ -320,166 +333,122 @@ class _FormularioState extends State<Formulario> {
                                     }
                                   },
                                 ),
-                                SwitchListTile(
-                                  subtitle: Text(
-                                    '(${_fluente ? "Sou falante fluente" : "Preciso treinar minha fala"})',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .subtitle1
-                                        ?.copyWith(
-                                            fontSize: 10, color: Colors.red),
-                                  ),
-                                  title: Text(
-                                    _fluente
-                                        ? "Falante fluente"
-                                        : "Falante não fluente",
-                                  ),
-                                  activeColor: Theme.of(context).primaryColor,
-                                  value: _fluente,
-                                  onChanged: (isfluente) {
-                                    setState(() {
-                                      _fluente = isfluente;
-                                    });
-                                  },
-                                ),
-                                _processing
-                                    ? const SizedBox(
-                                        height: 30,
-                                        width: 30,
-                                        child: CircularProgressIndicator(),
-                                      )
-                                    : Container(
-                                        margin: const EdgeInsets.only(top: 10),
-                                        width: 140,
-                                        child: ElevatedButton(
-                                          onPressed: () async {
-                                            if (_formKey.currentState!
-                                                .validate()) {
-                                              setState(() {
-                                                _processing = true;
-                                              });
-                                              await checkConnection().then(
-                                                (internet) async {
-                                                  if (internet) {
-                                                    String? isUsedEmail =
-                                                        await Provider.of<
-                                                            FirebaseDao>(
-                                                      context,
-                                                      listen: false,
-                                                    ).isUsedEmail(
-                                                            _emailController
-                                                                .text);
-                                                    if (isUsedEmail != null) {
-                                                      await _showAlertDialogUpdate(
-                                                        isUsedEmail,
-                                                      );
-
-                                                      setState(() {
-                                                        _processing = false;
-                                                      });
-                                                    } else {
-                                                      int _numeroPasta =
-                                                          await Provider.of<
-                                                              FirebaseDao>(
-                                                        context,
-                                                        listen: false,
-                                                      ).incrementNumero(
-                                                              'num_pasta', 1);
-                                                      String
-                                                          _numeroPastaConvertido =
-                                                          convertNumeroPasta(
-                                                              _numeroPasta);
-                                                      int numArquivo =
-                                                          Provider.of<Vogais>(
-                                                                  context,
-                                                                  listen: false)
-                                                              .getNumElementos;
-                                                      int _numeroArquivos =
-                                                          await Provider.of<
-                                                              FirebaseDao>(
-                                                        context,
-                                                        listen: false,
-                                                      ).incrementNumero(
-                                                              'num_arquivo',
-                                                              numArquivo);
-                                                      String _nomeDaPasta =
-                                                          _getFolderName(
-                                                              _sexoController
-                                                                  .text,
-                                                              _numeroPastaConvertido);
-                                                      await Provider.of<
-                                                          FirebaseDao>(
-                                                        context,
-                                                        listen: false,
-                                                      ).sendNewUserData(
-                                                          email:
-                                                              _emailController
-                                                                  .text,
-                                                          nome: _nomeController
-                                                              .text,
-                                                          idade:
-                                                              _idadeController
-                                                                  .text,
-                                                          sexo: _sexoController
-                                                              .text,
-                                                          numPasta:
-                                                              _nomeDaPasta,
-                                                          numArquivos:
-                                                              _numeroArquivos,
-                                                          fluente: _fluente,
-                                                          estado:
-                                                              _estadoController
-                                                                  .text);
-
-                                                      await Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                          builder: (BuildContext
-                                                                  context) =>
-                                                              AudiosScreen(
-                                                            folderName:
-                                                                _nomeDaPasta,
-                                                            numeroArquivos:
-                                                                _numeroArquivos,
-                                                            fluente: _fluente,
-                                                          ),
-                                                        ),
-                                                      );
-                                                    }
-                                                    setState(
-                                                      () {
-                                                        _processing = false;
-                                                      },
-                                                    );
-                                                  } else {
-                                                    setState(() {
-                                                      _processing = false;
-                                                    });
-                                                    showGeneralDialog(
-                                                      context: context,
-                                                      barrierColor:
-                                                          Colors.black54,
-                                                      pageBuilder: (_, __,
-                                                              ___) =>
-                                                          const ErroConection(),
-                                                    );
-                                                  }
-                                                },
-                                              );
-                                            }
-                                          },
-                                          child: const Text('GRAVAR ÁUDIOS'),
-                                        ),
-                                      ),
                               ],
                             ),
                           ),
                         ],
                       ),
                     ),
-                  ],
+                  ),
                 ),
-              ),
+                _processing
+                    ? const SizedBox(
+                        height: 30,
+                        width: 30,
+                        child: CircularProgressIndicator(),
+                      )
+                    : Flexible(
+                        child: Container(
+                          margin: const EdgeInsets.only(top: 15),
+                          width: 140,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                fixedSize: Size(50, 20)),
+                            onPressed: () async {
+                              if (_formKey.currentState!.validate()) {
+                                setState(() {
+                                  _processing = true;
+                                });
+                                await checkConnection().then(
+                                  (internet) async {
+                                    if (internet) {
+                                      String? isUsedEmail =
+                                          await Provider.of<FirebaseDao>(
+                                        context,
+                                        listen: false,
+                                      ).isUsedEmail(_emailController.text);
+                                      if (isUsedEmail != null) {
+                                        await _showAlertDialogUpdate(
+                                          isUsedEmail,
+                                        );
+
+                                        setState(() {
+                                          _processing = false;
+                                        });
+                                      } else {
+                                        int _numeroPasta =
+                                            await Provider.of<FirebaseDao>(
+                                          context,
+                                          listen: false,
+                                        ).incrementNumero('num_pasta', 1);
+                                        String _numeroPastaConvertido =
+                                            convertNumeroPasta(_numeroPasta);
+                                        int numArquivo = Provider.of<Vogais>(
+                                                context,
+                                                listen: false)
+                                            .getNumElementos;
+                                        int _numeroArquivos =
+                                            await Provider.of<FirebaseDao>(
+                                          context,
+                                          listen: false,
+                                        ).incrementNumero(
+                                                'num_arquivo', numArquivo);
+                                        String _nomeDaPasta = _getFolderName(
+                                            _sexoController.text,
+                                            _numeroPastaConvertido);
+                                        await Provider.of<FirebaseDao>(
+                                          context,
+                                          listen: false,
+                                        ).sendNewUserData(
+                                            email: _emailController.text,
+                                            nome: _nomeController.text,
+                                            idade: _idadeController.text,
+                                            sexo: _sexoController.text,
+                                            numPasta: _nomeDaPasta,
+                                            numArquivos: _numeroArquivos,
+                                            fluente: _fluente,
+                                            estado: _estadoController.text);
+
+                                        await Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                AudiosScreen(
+                                              folderName: _nomeDaPasta,
+                                              numeroArquivos: _numeroArquivos,
+                                              fluente: _fluente,
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                      setState(
+                                        () {
+                                          _processing = false;
+                                        },
+                                      );
+                                    } else {
+                                      setState(() {
+                                        _processing = false;
+                                      });
+                                      showGeneralDialog(
+                                        context: context,
+                                        barrierColor: Colors.black54,
+                                        pageBuilder: (_, __, ___) =>
+                                            const ErroConection(),
+                                      );
+                                    }
+                                  },
+                                );
+                              }
+                            },
+                            child: const Text('GRAVAR ÁUDIOS'),
+                          ),
+                        ),
+                      ),
+                // SizedBox(
+                //   height: 20,
+                // )
+              ],
             ),
           ),
         ),
