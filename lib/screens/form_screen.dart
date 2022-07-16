@@ -147,310 +147,305 @@ class _FormularioState extends State<Formulario> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Container(
+        width: width,
+        height: height,
         decoration: BoxDecoration(
             gradient: LinearGradient(colors: [
           Theme.of(context).primaryColor,
           const Color(0xFF00d4ff)
         ], begin: Alignment.topCenter, end: AlignmentDirectional.bottomCenter)),
-        child: Center(
-          child: Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  height: MediaQuery.of(context).size.height * 0.55,
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade200,
-                    borderRadius: const BorderRadius.all(Radius.circular(30.0)),
-                  ),
-                  child: SingleChildScrollView(
-                    child: Center(
-                      child: Column(
-                        children: [
-                          Text('CADASTRE-SE',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .subtitle1
-                                  ?.copyWith(fontWeight: FontWeight.bold)),
-                          Form(
-                            key: _formKey,
-                            child: Column(
-                              children: [
-                                SwitchListTile(
-                                  subtitle: Text(
-                                    '(${_fluente ? "Sou falante fluente" : "Preciso treinar minha fala"})',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .subtitle1
-                                        ?.copyWith(
-                                            fontSize: 10, color: Colors.red),
-                                  ),
-                                  title: Text(
-                                    _fluente
-                                        ? "Falante fluente"
-                                        : "Falante não fluente",
-                                  ),
-                                  activeColor: Theme.of(context).primaryColor,
-                                  value: _fluente,
-                                  onChanged: (isfluente) {
-                                    setState(() {
-                                      _fluente = isfluente;
-                                    });
-                                  },
-                                ),
-                                TextFormField(
-                                  style: Theme.of(context).textTheme.subtitle2,
-                                  controller: _emailController,
-                                  validator: (email) => _validateEmail(email),
-                                  onSaved: (email) {
-                                    setState(() {
-                                      _nomeController.text = email!;
-                                    });
-                                  },
-                                  decoration: const InputDecoration(
-                                      labelText: 'E-mail'),
-                                ),
-                                TextFormField(
-                                  style: Theme.of(context).textTheme.subtitle2,
-                                  controller: _nomeController,
-                                  validator: (nome) {
-                                    if (nome!.isEmpty) {
-                                      return "Preencha o nome";
-                                    } else if (nome.isNotEmpty) {
-                                      return null;
-                                    }
-                                    return null;
-                                  },
-                                  onSaved: (nome) {
-                                    setState(() {
-                                      _nomeController.text = nome!;
-                                    });
-                                  },
-                                  decoration:
-                                      const InputDecoration(labelText: 'Nome'),
-                                ),
-                                TextFormField(
-                                  style: Theme.of(context).textTheme.subtitle2,
-                                  controller: _idadeController,
-                                  keyboardType:
-                                      const TextInputType.numberWithOptions(
-                                          decimal: true),
-                                  decoration:
-                                      const InputDecoration(labelText: 'Idade'),
-                                  validator: (idade) {
-                                    if (idade!.isEmpty || idade.contains(' ')) {
-                                      return "Preencha com uma idade válida";
-                                    } else if (idade.isNotEmpty) {
-                                      return null;
-                                    }
-                                    return null;
-                                  },
-                                ),
-                                DropdownButtonFormField(
-                                  iconSize: 32,
-                                  hint: Text(
-                                    _sexoController.text,
-                                    style: TextStyle(
-                                        color: Theme.of(context).primaryColor),
-                                  ),
-                                  items: ['Feminino', 'Masculino']
-                                      .map((String sexo) {
-                                    return DropdownMenuItem<String>(
-                                      value: sexo,
-                                      child: Text(
-                                        sexo,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .subtitle2,
-                                      ),
-                                    );
-                                  }).toList(),
-                                  decoration:
-                                      const InputDecoration(labelText: 'Sexo'),
-                                  onChanged: (sexo) {
-                                    setState(() {
-                                      String _strSexo = sexo.toString();
-                                      _sexoController.text = _strSexo[0];
-                                    });
-                                  },
-                                  onSaved: (sexo) {
-                                    setState(() {
-                                      String _strSexo = sexo.toString();
-                                      _sexoController.text = _strSexo[0];
-                                    });
-                                  },
-                                  validator: (sexo) {
-                                    if (sexo == null) {
-                                      return "Preencha com o sexo";
-                                    } else {
-                                      return null;
-                                    }
-                                  },
-                                ),
-                                DropdownButtonFormField(
-                                  iconSize: 32,
-                                  hint: Text(
-                                    _estadoController.text,
-                                    style: TextStyle(
-                                        color: Theme.of(context).primaryColor),
-                                  ),
-                                  items: estados.map((String estado) {
-                                    return DropdownMenuItem<String>(
-                                      value: estado,
-                                      child: Text(
-                                        estado,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .subtitle2,
-                                      ),
-                                    );
-                                  }).toList(),
-                                  decoration: const InputDecoration(
-                                      labelText: 'Estado'),
-                                  onChanged: (estado) {
-                                    setState(() {
-                                      _estadoController.text =
-                                          estado.toString();
-                                      print(_estadoController.text);
-                                    });
-                                  },
-                                  onSaved: (estado) {
-                                    setState(() {
-                                      _estadoController.text =
-                                          estado.toString();
-                                      print(_estadoController.text);
-                                    });
-                                  },
-                                  validator: (estado) {
-                                    if (estado == null) {
-                                      return "Preencha com o estado onde você reside";
-                                    } else {
-                                      return null;
-                                    }
-                                  },
-                                ),
-                              ],
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10),
+              width: MediaQuery.of(context).size.width * 0.8,
+              height: MediaQuery.of(context).size.height * 0.55,
+              decoration: BoxDecoration(
+                color: Colors.grey.shade200,
+                borderRadius: const BorderRadius.all(Radius.circular(30.0)),
+              ),
+              child: SingleChildScrollView(
+                child: Center(
+                  child: Column(
+                    children: [
+                      Text('CADASTRE-SE',
+                          style: Theme.of(context)
+                              .textTheme
+                              .subtitle1
+                              ?.copyWith(fontWeight: FontWeight.bold)),
+                      Form(
+                        key: _formKey,
+                        child: Column(
+                          children: [
+                            SwitchListTile(
+                              subtitle: Text(
+                                '(${_fluente ? "Sou falante fluente" : "Preciso treinar minha fala"})',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .subtitle1
+                                    ?.copyWith(fontSize: 10, color: Colors.red),
+                              ),
+                              title: Text(
+                                _fluente
+                                    ? "Falante fluente"
+                                    : "Falante não fluente",
+                              ),
+                              activeColor: Theme.of(context).primaryColor,
+                              value: _fluente,
+                              onChanged: (isfluente) {
+                                setState(() {
+                                  _fluente = isfluente;
+                                });
+                              },
                             ),
-                          ),
-                        ],
+                            TextFormField(
+                              style: Theme.of(context).textTheme.subtitle2,
+                              controller: _emailController,
+                              validator: (email) => _validateEmail(email),
+                              onSaved: (email) {
+                                setState(() {
+                                  _nomeController.text = email!;
+                                });
+                              },
+                              decoration:
+                                  const InputDecoration(labelText: 'E-mail'),
+                            ),
+                            TextFormField(
+                              style: Theme.of(context).textTheme.subtitle2,
+                              controller: _nomeController,
+                              validator: (nome) {
+                                if (nome!.isEmpty) {
+                                  return "Preencha o nome";
+                                } else if (nome.isNotEmpty) {
+                                  return null;
+                                }
+                                return null;
+                              },
+                              onSaved: (nome) {
+                                setState(() {
+                                  _nomeController.text = nome!;
+                                });
+                              },
+                              decoration:
+                                  const InputDecoration(labelText: 'Nome'),
+                            ),
+                            TextFormField(
+                              style: Theme.of(context).textTheme.subtitle2,
+                              controller: _idadeController,
+                              keyboardType:
+                                  const TextInputType.numberWithOptions(
+                                      decimal: true),
+                              decoration:
+                                  const InputDecoration(labelText: 'Idade'),
+                              validator: (idade) {
+                                if (idade!.isEmpty || idade.contains(' ')) {
+                                  return "Preencha com uma idade válida";
+                                } else if (idade.isNotEmpty) {
+                                  return null;
+                                }
+                                return null;
+                              },
+                            ),
+                            DropdownButtonFormField(
+                              iconSize: 32,
+                              hint: Text(
+                                _sexoController.text,
+                                style: TextStyle(
+                                    color: Theme.of(context).primaryColor),
+                              ),
+                              items:
+                                  ['Feminino', 'Masculino'].map((String sexo) {
+                                return DropdownMenuItem<String>(
+                                  value: sexo,
+                                  child: Text(
+                                    sexo,
+                                    style:
+                                        Theme.of(context).textTheme.subtitle2,
+                                  ),
+                                );
+                              }).toList(),
+                              decoration:
+                                  const InputDecoration(labelText: 'Sexo'),
+                              onChanged: (sexo) {
+                                setState(() {
+                                  String _strSexo = sexo.toString();
+                                  _sexoController.text = _strSexo[0];
+                                });
+                              },
+                              onSaved: (sexo) {
+                                setState(() {
+                                  String _strSexo = sexo.toString();
+                                  _sexoController.text = _strSexo[0];
+                                });
+                              },
+                              validator: (sexo) {
+                                if (sexo == null) {
+                                  return "Preencha com o sexo";
+                                } else {
+                                  return null;
+                                }
+                              },
+                            ),
+                            DropdownButtonFormField(
+                              iconSize: 32,
+                              hint: Text(
+                                _estadoController.text,
+                                style: TextStyle(
+                                    color: Theme.of(context).primaryColor),
+                              ),
+                              items: estados.map((String estado) {
+                                return DropdownMenuItem<String>(
+                                  value: estado,
+                                  child: Text(
+                                    estado,
+                                    style:
+                                        Theme.of(context).textTheme.subtitle2,
+                                  ),
+                                );
+                              }).toList(),
+                              decoration:
+                                  const InputDecoration(labelText: 'Estado'),
+                              onChanged: (estado) {
+                                setState(() {
+                                  _estadoController.text = estado.toString();
+                                  print(_estadoController.text);
+                                });
+                              },
+                              onSaved: (estado) {
+                                setState(() {
+                                  _estadoController.text = estado.toString();
+                                  print(_estadoController.text);
+                                });
+                              },
+                              validator: (estado) {
+                                if (estado == null) {
+                                  return "Preencha com o estado onde você reside";
+                                } else {
+                                  return null;
+                                }
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            _processing
+                ? const SizedBox(
+                    height: 30,
+                    width: 30,
+                    child: CircularProgressIndicator(),
+                  )
+                : Flexible(
+                    child: Container(
+                      margin: const EdgeInsets.only(top: 15),
+                      width: 140,
+                      child: ElevatedButton(
+                        style:
+                            ElevatedButton.styleFrom(fixedSize: Size(50, 20)),
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate()) {
+                            setState(() {
+                              _processing = true;
+                            });
+                            await checkConnection().then(
+                              (internet) async {
+                                if (internet) {
+                                  String? isUsedEmail =
+                                      await Provider.of<FirebaseDao>(
+                                    context,
+                                    listen: false,
+                                  ).isUsedEmail(_emailController.text);
+                                  if (isUsedEmail != null) {
+                                    await _showAlertDialogUpdate(
+                                      isUsedEmail,
+                                    );
+
+                                    setState(() {
+                                      _processing = false;
+                                    });
+                                  } else {
+                                    int _numeroPasta =
+                                        await Provider.of<FirebaseDao>(
+                                      context,
+                                      listen: false,
+                                    ).incrementNumero('num_pasta', 1);
+                                    String _numeroPastaConvertido =
+                                        convertNumeroPasta(_numeroPasta);
+                                    int numArquivo = Provider.of<Vogais>(
+                                            context,
+                                            listen: false)
+                                        .getNumElementos;
+                                    int _numeroArquivos =
+                                        await Provider.of<FirebaseDao>(
+                                      context,
+                                      listen: false,
+                                    ).incrementNumero(
+                                            'num_arquivo', numArquivo);
+                                    String _nomeDaPasta = _getFolderName(
+                                        _sexoController.text,
+                                        _numeroPastaConvertido);
+                                    await Provider.of<FirebaseDao>(
+                                      context,
+                                      listen: false,
+                                    ).sendNewUserData(
+                                        email: _emailController.text,
+                                        nome: _nomeController.text,
+                                        idade: _idadeController.text,
+                                        sexo: _sexoController.text,
+                                        numPasta: _nomeDaPasta,
+                                        numArquivos: _numeroArquivos,
+                                        fluente: _fluente,
+                                        estado: _estadoController.text);
+
+                                    await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            AudiosScreen(
+                                          folderName: _nomeDaPasta,
+                                          numeroArquivos: _numeroArquivos,
+                                          fluente: _fluente,
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                  setState(
+                                    () {
+                                      _processing = false;
+                                    },
+                                  );
+                                } else {
+                                  setState(() {
+                                    _processing = false;
+                                  });
+                                  showGeneralDialog(
+                                    context: context,
+                                    barrierColor: Colors.black54,
+                                    pageBuilder: (_, __, ___) =>
+                                        const ErroConection(),
+                                  );
+                                }
+                              },
+                            );
+                          }
+                        },
+                        child: const Text('GRAVAR ÁUDIOS'),
                       ),
                     ),
                   ),
-                ),
-                _processing
-                    ? const SizedBox(
-                        height: 30,
-                        width: 30,
-                        child: CircularProgressIndicator(),
-                      )
-                    : Flexible(
-                        child: Container(
-                          margin: const EdgeInsets.only(top: 15),
-                          width: 140,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                fixedSize: Size(50, 20)),
-                            onPressed: () async {
-                              if (_formKey.currentState!.validate()) {
-                                setState(() {
-                                  _processing = true;
-                                });
-                                await checkConnection().then(
-                                  (internet) async {
-                                    if (internet) {
-                                      String? isUsedEmail =
-                                          await Provider.of<FirebaseDao>(
-                                        context,
-                                        listen: false,
-                                      ).isUsedEmail(_emailController.text);
-                                      if (isUsedEmail != null) {
-                                        await _showAlertDialogUpdate(
-                                          isUsedEmail,
-                                        );
-
-                                        setState(() {
-                                          _processing = false;
-                                        });
-                                      } else {
-                                        int _numeroPasta =
-                                            await Provider.of<FirebaseDao>(
-                                          context,
-                                          listen: false,
-                                        ).incrementNumero('num_pasta', 1);
-                                        String _numeroPastaConvertido =
-                                            convertNumeroPasta(_numeroPasta);
-                                        int numArquivo = Provider.of<Vogais>(
-                                                context,
-                                                listen: false)
-                                            .getNumElementos;
-                                        int _numeroArquivos =
-                                            await Provider.of<FirebaseDao>(
-                                          context,
-                                          listen: false,
-                                        ).incrementNumero(
-                                                'num_arquivo', numArquivo);
-                                        String _nomeDaPasta = _getFolderName(
-                                            _sexoController.text,
-                                            _numeroPastaConvertido);
-                                        await Provider.of<FirebaseDao>(
-                                          context,
-                                          listen: false,
-                                        ).sendNewUserData(
-                                            email: _emailController.text,
-                                            nome: _nomeController.text,
-                                            idade: _idadeController.text,
-                                            sexo: _sexoController.text,
-                                            numPasta: _nomeDaPasta,
-                                            numArquivos: _numeroArquivos,
-                                            fluente: _fluente,
-                                            estado: _estadoController.text);
-
-                                        await Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (BuildContext context) =>
-                                                AudiosScreen(
-                                              folderName: _nomeDaPasta,
-                                              numeroArquivos: _numeroArquivos,
-                                              fluente: _fluente,
-                                            ),
-                                          ),
-                                        );
-                                      }
-                                      setState(
-                                        () {
-                                          _processing = false;
-                                        },
-                                      );
-                                    } else {
-                                      setState(() {
-                                        _processing = false;
-                                      });
-                                      showGeneralDialog(
-                                        context: context,
-                                        barrierColor: Colors.black54,
-                                        pageBuilder: (_, __, ___) =>
-                                            const ErroConection(),
-                                      );
-                                    }
-                                  },
-                                );
-                              }
-                            },
-                            child: const Text('GRAVAR ÁUDIOS'),
-                          ),
-                        ),
-                      ),
-                // SizedBox(
-                //   height: 20,
-                // )
-              ],
-            ),
-          ),
+            // SizedBox(
+            //   height: 20,
+            // )
+          ],
         ),
       ),
     );
